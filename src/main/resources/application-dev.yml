@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      connection-timeout: 3000
+      minimum-idle: 10
+    url: "jdbc:mysql://192.168.218.131:3306/fxblog?serverTimezone=CTT&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true"
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver

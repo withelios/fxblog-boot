@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fxtahe.fxblog.mapper.ArticleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.fxtahe.fxblog.entity.Article">
+        <id column="id" property="id" />
+        <result column="author_id" property="authorId" />
+        <result column="title" property="title" />
+        <result column="excerpt" property="excerpt" />
+        <result column="content" property="content" />
+        <result column="markdown" property="markdown" />
+        <result column="create_date" property="createDate" />
+        <result column="update_date" property="updateDate" />
+        <result column="state" property="state" />
+        <result column="category_id" property="categoryId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, author_id, title, excerpt, content, markdown, create_date, update_date, status, category_id
+    </sql>
+
+    <select id="selectPage" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/> FROM article WHERE state=#{state}
+    </select>
+</mapper>
