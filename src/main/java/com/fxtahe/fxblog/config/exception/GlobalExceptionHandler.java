@@ -1,7 +1,7 @@
 package com.fxtahe.fxblog.config.exception;
 
-import com.fxtahe.fxblog.vo.ResponseStatus;
-import com.fxtahe.fxblog.vo.Result;
+import com.fxtahe.fxblog.vo.wrapper.ResponseStatus;
+import com.fxtahe.fxblog.vo.wrapper.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

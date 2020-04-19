@@ -1,7 +1,7 @@
 package com.fxtahe.fxblog.config;
 
 import com.fxtahe.fxblog.config.annotation.ResponseWrapper;
-import com.fxtahe.fxblog.vo.Result;
+import com.fxtahe.fxblog.vo.wrapper.Result;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;

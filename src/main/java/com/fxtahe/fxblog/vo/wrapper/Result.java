@@ -1,4 +1,4 @@
-package com.fxtahe.fxblog.vo;
+package com.fxtahe.fxblog.vo.wrapper;
 
 import lombok.Data;
 

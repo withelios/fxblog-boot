@@ -58,6 +58,16 @@ public class Article extends Model<Article> {
     private String markdown;
 
     /**
+     * 喜欢数
+     */
+    private Integer likes;
+
+    /**
+     * 查看数
+     */
+    private Integer views;
+
+    /**
      * 创建时间
      */
     private LocalDateTime createDate;

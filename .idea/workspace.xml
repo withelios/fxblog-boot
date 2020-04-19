@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="e60081b3-8299-4848-b321-515c80650f15" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/fxtahe/fxblog/config/MybatisPlusConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/fxtahe/fxblog/controller/ArticleController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/fxtahe/fxblog/controller/CategoryController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/fxtahe/fxblog/controller/TagController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/fxtahe/fxblog/controller/TagRelationshipController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/fxtahe/fxblog/entity/Article.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/fxtahe/fxblog/entity/Category.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/fxtahe/fxblog/entity/Tag.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/fxtahe/fxblog/entity/TagRelationship.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/fxtahe/fxblog/mapper/ArticleMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/fxtahe/fxblog/mapper/CategoryMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/fxtahe/fxblog/mapper/TagMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/fxtahe/fxblog/mapper/TagRelationshipMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/fxtahe/fxblog/service/ArticleService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/fxtahe/fxblog/service/CategoryService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/fxtahe/fxblog/service/Impl/ArticleServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/fxtahe/fxblog/service/Impl/CategoryServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/fxtahe/fxblog/service/Impl/TagRelationshipServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/fxtahe/fxblog/service/Impl/TagServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/fxtahe/fxblog/service/TagRelationshipService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/fxtahe/fxblog/service/TagService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/banner.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/mapper/ArticleMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/mapper/CategoryMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/mapper/TagMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/mapper/TagRelationshipMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/fxtahe/fxblog/FxblogApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fxtahe/fxblog/FxblogApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application-dev.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application-dev.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/fxtahe/fxblog/FxblogApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/fxtahe/fxblog/FxblogApplication.class" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="AnnotationType" />
+        <option value="Enum" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="localRepository" value="C:\soft\dev\apache-maven-3.6.3\repository" />
+        <option name="mavenHome" value="C:/soft/dev/apache-maven-3.6.3" />
+        <option name="userSettingsFile" value="C:\soft\dev\apache-maven-3.6.3\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1aCGACH8OvLoZEokpuMPshdFozR" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="editing.templates" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.fxtahe.fxblog.mapper" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\file\personal\dev\code\fxblog\fxblog-boot\src\main\resources\mapper" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Spring Boot.FxblogApplication">
+    <configuration name="MybatisGenerator" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.fxtahe.fxblog.mapper.MybatisGenerator" />
+      <module name="fxblog-boot" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.fxtahe.fxblog.mapper.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="FxblogApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="fxblog-boot" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.fxtahe.fxblog.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.fxtahe.fxblog.FxblogApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spring Boot.FxblogApplication" />
+        <item itemvalue="Application.MybatisGenerator" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SpringGeneralSettings">
+    <option name="showMultipleContextsPanel" value="false" />
+    <option name="showProfilesPanel" value="false" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e60081b3-8299-4848-b321-515c80650f15" name="Default Changelist" comment="" />
+      <created>1586232016556</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1586232016556</updated>
+      <workItem from="1586232018261" duration="5566000" />
+      <workItem from="1586307874304" duration="11000" />
+      <workItem from="1586852003691" duration="20719000" />
+      <workItem from="1586912789771" duration="7884000" />
+    </task>
+    <task id="LOCAL-00001" summary="init fxblog-boot">
+      <created>1586247344753</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1586247344753</updated>
+    </task>
+    <task id="LOCAL-00002" summary="fxblog-boot response exception">
+      <created>1586880829841</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1586880829841</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="init fxblog-boot" />
+    <MESSAGE value="fxblog-boot response exception" />
+    <option name="LAST_COMMIT_MESSAGE" value="fxblog-boot response exception" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="485" y="266" key="#com.intellij.codeInsight.template.impl.EditVariableDialog" timestamp="1586877723439">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="485" y="266" key="#com.intellij.codeInsight.template.impl.EditVariableDialog/0.0.1536.824@0.0.1536.824" timestamp="1586877723439" />
+    <state x="574" y="122" key="#com.intellij.ide.util.MemberChooser" timestamp="1586858178930">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="574" y="122" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824@0.0.1536.824" timestamp="1586858178930" />
+    <state x="389" y="91" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog" timestamp="1586232758770">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="389" y="91" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog/0.0.1536.824@0.0.1536.824" timestamp="1586232758770" />
+    <state x="614" y="302" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1586232605259">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="614" y="302" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1536.824@0.0.1536.824" timestamp="1586232605259" />
+    <state x="548" y="271" width="439" height="291" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1586918318318">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="548" y="271" width="439" height="291" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1536.824@0.0.1536.824" timestamp="1586918318318" />
+    <state x="499" y="159" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1586913380439">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="499" y="159" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1536.824@0.0.1536.824" timestamp="1586913380439" />
+    <state x="365" y="5" key="CommitChangelistDialog2" timestamp="1586923428280">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="365" y="5" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1586923428280" />
+    <state width="1493" height="284" key="GridCell.Tab.0.bottom" timestamp="1586922904612">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="284" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1586922904612" />
+    <state width="1493" height="284" key="GridCell.Tab.0.center" timestamp="1586922904612">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="284" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1586922904612" />
+    <state width="1493" height="284" key="GridCell.Tab.0.left" timestamp="1586922904612">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="284" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1586922904612" />
+    <state width="1493" height="284" key="GridCell.Tab.0.right" timestamp="1586922904612">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="284" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1586922904612" />
+    <state width="1493" height="284" key="GridCell.Tab.1.bottom" timestamp="1586922904613">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="284" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1586922904613" />
+    <state width="1493" height="284" key="GridCell.Tab.1.center" timestamp="1586922904612">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="284" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1586922904612" />
+    <state width="1493" height="284" key="GridCell.Tab.1.left" timestamp="1586922904612">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="284" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1586922904612" />
+    <state width="1493" height="284" key="GridCell.Tab.1.right" timestamp="1586922904613">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="284" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1586922904613" />
+    <state x="267" y="55" width="1269" height="714" key="SettingsEditor" timestamp="1586921949755">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="267" y="55" width="1269" height="714" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1586921949755" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1586874879160">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1586874879160" />
+  </component>
+</project>

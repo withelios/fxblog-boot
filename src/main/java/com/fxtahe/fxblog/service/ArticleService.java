@@ -2,6 +2,9 @@ package com.fxtahe.fxblog.service;
 
 import com.fxtahe.fxblog.entity.Article;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.fxtahe.fxblog.vo.ArticleVo;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ArticleService extends IService<Article> {
 
+    List<ArticleVo> findFeatureArticle();
 }

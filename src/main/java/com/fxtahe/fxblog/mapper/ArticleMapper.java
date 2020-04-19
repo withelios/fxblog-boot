@@ -1,9 +1,10 @@
 package com.fxtahe.fxblog.mapper;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.fxtahe.fxblog.entity.Article;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.fxtahe.fxblog.entity.Article;
+import com.fxtahe.fxblog.vo.ArticleVo;
+
+import java.util.List;
 
 /**
  * <p>
@@ -15,5 +16,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface ArticleMapper extends BaseMapper<Article> {
 
-    IPage<Article> selectPageVo(Page<?> page, Integer state);
+    //IPage<Article> selectPageVo(Page<?> page, Integer state);
+    List<ArticleVo> selectFeatureArticles();
 }

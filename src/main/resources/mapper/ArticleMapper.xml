@@ -10,18 +10,39 @@
         <result column="excerpt" property="excerpt" />
         <result column="content" property="content" />
         <result column="markdown" property="markdown" />
+        <result column="likes" property="likes"/>
+        <result column="views" property="views"/>
         <result column="create_date" property="createDate" />
         <result column="update_date" property="updateDate" />
         <result column="state" property="state" />
         <result column="category_id" property="categoryId" />
     </resultMap>
-
+    <resultMap id="ArticleVoResultMap" extends="BaseResultMap" type="com.fxtahe.fxblog.vo.ArticleVo">
+        <association property="category" javaType="com.fxtahe.fxblog.entity.Category">
+            <id property="id" column="category_id"/>
+            <result property="categoryName" column="category_name"/>
+        </association>
+        <collection property="tags" ofType="com.fxtahe.fxblog.entity.Tag">
+            <id property="id" column="tag_id"/>
+            <result property="tagName" column="tag_name"/>
+            <result property="useCount" column="use_count"/>
+        </collection>
+    </resultMap>
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, author_id, title, excerpt, content, markdown, create_date, update_date, status, category_id
+        id, author_id, title, excerpt, content, markdown, likes, views, create_date, update_date, status, category_id
     </sql>
 
     <select id="selectPage" resultMap="BaseResultMap">
-        SELECT <include refid="Base_Column_List"/> FROM article WHERE state=#{state}
+        SELECT id, author_id, title, excerpt, markdown, likes, views, create_date, update_date, status, category_id FROM article WHERE state=#{state}
+    </select>
+
+    <select id="selectFeatureArticles" resultMap="ArticleVoResultMap">
+        SELECT a.*,t.id as tag_id,t.tag_name,t.use_count,c.category_name as category_name
+        FROM `article` a
+        left JOIN tag_relationship ON a.id = tag_relationship.article_id
+        LEFT JOIN tag t ON tag_relationship.tag_id = t.id
+        LEFT JOIN category c ON c.id = a.category_id
+        order by views limit 3
     </select>
 </mapper>

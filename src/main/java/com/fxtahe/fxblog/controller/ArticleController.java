@@ -4,6 +4,7 @@ package com.fxtahe.fxblog.controller;
 import com.fxtahe.fxblog.config.annotation.ResponseWrapper;
 import com.fxtahe.fxblog.entity.Article;
 import com.fxtahe.fxblog.service.ArticleService;
+import com.fxtahe.fxblog.vo.ArticleVo;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,14 +28,21 @@ public class ArticleController {
     @Resource
     private ArticleService articleService;
 
-    @GetMapping("/getList")
-    public List<Article> getAll(){
+    @GetMapping("/feature")
+    public List<ArticleVo> getFeatureArticle(){
+
+        return articleService.findFeatureArticle();
+    }
+
+    @GetMapping("/homePage")
+    public List<Article> getArticlePageVo(){
 
         return articleService.list();
     }
 
     @GetMapping("/{id}")
     public Article getArticle(@PathVariable Integer id){
+
         return articleService.getById(id);
     }
 
