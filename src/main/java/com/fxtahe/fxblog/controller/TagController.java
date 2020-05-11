@@ -1,9 +1,13 @@
 package com.fxtahe.fxblog.controller;
 
 
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fxtahe.fxblog.entity.Tag;
+import com.fxtahe.fxblog.service.TagService;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RestController;
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <p>
@@ -17,5 +21,37 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/tag")
 public class TagController {
 
+    @Resource
+    private TagService tagService;
+
+    @PostMapping("/save")
+    public void saveTag(Tag tag){
+        tagService.save(tag);
+    }
+
+    @GetMapping("/get/page/{current}")
+    public Page<Tag> getPage(@PathVariable Long current){
+        return tagService.page(new Page<Tag>().setCurrent(current));
+    }
+
+    @GetMapping("/get/list")
+    public List<Tag> getList(){
+        return tagService.list();
+    }
+
+    @GetMapping("/get/{id}")
+    public Tag getById(@PathVariable Integer id){
+        return tagService.getById(id);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteTag(@PathVariable Integer id){
+        tagService.deleteTag(id);
+    }
+
+    @PutMapping("/update")
+    public void updateTag(Tag tag){
+        tagService.updateById(tag);
+    }
 }
 

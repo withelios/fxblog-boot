@@ -1,15 +1,14 @@
 package com.fxtahe.fxblog.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
-
-import java.time.LocalDateTime;
-import java.io.Serializable;
-
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -68,6 +67,11 @@ public class Article extends Model<Article> {
     private Integer views;
 
     /**
+     * 是否推荐
+     */
+    private Boolean feature;
+
+    /**
      * 创建时间
      */
     private LocalDateTime createDate;
@@ -80,12 +84,8 @@ public class Article extends Model<Article> {
     /**
      * 状态
      */
-    private Integer state;
+    private String state;
 
-    /**
-     * 分类id
-     */
-    private Integer categoryId;
 
 
     @Override

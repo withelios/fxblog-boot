@@ -29,14 +29,14 @@ public class MybatisGenerator {
         // 默认是全部表  如果需要生成个别张表,  可以打开56行的注释并注释掉57行
         generateByTables(serviceNameStartWithI,
                 packageName,
-                dir, new String[]{"article"}
+                dir, new String[]{"author"}
         );
     }
     private static void generateByTables(boolean serviceNameStartWithI, String packageName, String dir, String... tableNames ) {
 
         GlobalConfig config = new GlobalConfig();
         //mysql
-        String dbUrl = "jdbc:mysql://192.168.218.131:3306/fxblog?serverTimezone=CTT&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true";
+        String dbUrl = "jdbc:mysql://127.0.0.1:3306/fxblog?serverTimezone=CTT&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true";
         DataSourceConfig dataSourceConfig = new DataSourceConfig();
         dataSourceConfig.setDbType(DbType.MYSQL)
                 .setUrl(dbUrl)
@@ -51,7 +51,7 @@ public class MybatisGenerator {
         strategyConfig.setExclude(null);
         strategyConfig
                 .setCapitalMode(false)   // 全局大写命名
-                .setEntityLombokModel(true)   // Lomnok
+                .setEntityLombokModel(true)   // Lombok
                 .setRestControllerStyle(true)
                 .setNaming(NamingStrategy.underline_to_camel); //// underline_to_camel数据库表映射到实体的命名策略
 

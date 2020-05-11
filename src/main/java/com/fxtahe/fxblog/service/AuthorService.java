@@ -1,6 +1,6 @@
 package com.fxtahe.fxblog.service;
 
-import com.fxtahe.fxblog.entity.Tag;
+import com.fxtahe.fxblog.entity.Author;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -9,10 +9,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author fxtahe
- * @since 2020-04-15
+ * @since 2020-05-10
  */
-public interface TagService extends IService<Tag> {
+public interface AuthorService extends IService<Author> {
 
-
-    void deleteTag(Integer id);
 }

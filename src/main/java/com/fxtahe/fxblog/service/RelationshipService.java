@@ -1,6 +1,6 @@
 package com.fxtahe.fxblog.service;
 
-import com.fxtahe.fxblog.entity.TagRelationship;
+import com.fxtahe.fxblog.entity.Relationship;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,6 +11,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author fxtahe
  * @since 2020-04-15
  */
-public interface TagRelationshipService extends IService<TagRelationship> {
+public interface RelationshipService extends IService<Relationship> {
 
+
+    void deleteByCondition(Relationship relationship);
 }

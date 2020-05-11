@@ -12,12 +12,16 @@
         <result column="markdown" property="markdown" />
         <result column="likes" property="likes"/>
         <result column="views" property="views"/>
+        <result column="feature" property="feature" />
         <result column="create_date" property="createDate" />
         <result column="update_date" property="updateDate" />
         <result column="state" property="state" />
-        <result column="category_id" property="categoryId" />
     </resultMap>
     <resultMap id="ArticleVoResultMap" extends="BaseResultMap" type="com.fxtahe.fxblog.vo.ArticleVo">
+        <association property="author" javaType="com.fxtahe.fxblog.entity.Author">
+            <id property="id" column="author_id"/>
+            <result property="authorName" column="author_name"/>
+        </association>
         <association property="category" javaType="com.fxtahe.fxblog.entity.Category">
             <id property="id" column="category_id"/>
             <result property="categoryName" column="category_name"/>
@@ -25,7 +29,6 @@
         <collection property="tags" ofType="com.fxtahe.fxblog.entity.Tag">
             <id property="id" column="tag_id"/>
             <result property="tagName" column="tag_name"/>
-            <result property="useCount" column="use_count"/>
         </collection>
     </resultMap>
     <!-- 通用查询结果列 -->
@@ -38,11 +41,12 @@
     </select>
 
     <select id="selectFeatureArticles" resultMap="ArticleVoResultMap">
-        SELECT a.*,t.id as tag_id,t.tag_name,t.use_count,c.category_name as category_name
-        FROM `article` a
-        left JOIN tag_relationship ON a.id = tag_relationship.article_id
-        LEFT JOIN tag t ON tag_relationship.tag_id = t.id
-        LEFT JOIN category c ON c.id = a.category_id
-        order by views limit 3
+        select a.*,t.id as tag_id,author.author_name,t.tag_name,c.id as category_id,c.category_name
+        from article a
+        LEFT JOIN author on a.author_id = author.id
+        LEFT JOIN relationship r on a.id=r.article_id
+        LEFT JOIN tag t on t.id = r.r_id and r.r_type='tag'
+        LEFT JOIN category c on c.id = r.r_id and r.r_type = 'category'
+        where a.state = '2'
     </select>
 </mapper>

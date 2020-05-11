@@ -11,23 +11,26 @@ import java.io.Serializable;
 
 /**
  * <p>
- *
+ * 
  * </p>
  *
  * @author fxtahe
- * @since 2020-04-15
+ * @since 2020-05-10
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class Tag extends Model<Tag> {
+public class Author extends Model<Author> {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID=1L;
 
+    /**
+     * 作者id
+     */
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    private String tagName;
+    private String authorName;
 
 
     @Override

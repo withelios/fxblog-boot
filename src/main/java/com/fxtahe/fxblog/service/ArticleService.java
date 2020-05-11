@@ -17,4 +17,6 @@ import java.util.List;
 public interface ArticleService extends IService<Article> {
 
     List<ArticleVo> findFeatureArticle();
+
+    void deleteArticle(Integer id);
 }

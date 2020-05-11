@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.fxtahe.fxblog.mapper.TagRelationshipMapper">
+<mapper namespace="com.fxtahe.fxblog.mapper.RelationshipMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.fxtahe.fxblog.entity.TagRelationship">
+    <resultMap id="BaseResultMap" type="com.fxtahe.fxblog.entity.Relationship">
         <id column="id" property="id" />
-        <result column="tag_id" property="tagId" />
+        <result column="r_id" property="rId" />
         <result column="article_id" property="articleId" />
+        <result column="r_type" property="rType" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, tag_id, article_id
+        id, r_id, article_id, article_id, r_type
     </sql>
 
 </mapper>

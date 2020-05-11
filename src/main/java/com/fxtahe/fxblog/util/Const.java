@@ -16,5 +16,11 @@ public class Const {
     public final static Integer ARTICLE_DELETED = 3;
 
 
+    /*
+     类型： tag:标签 category:分类
+     */
+    public final static String TAG_TYPE = "tag";
+    public final static String CATEGORY_TYPE = "category";
+
 
 }

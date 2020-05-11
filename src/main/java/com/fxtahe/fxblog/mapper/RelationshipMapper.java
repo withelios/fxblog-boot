@@ -1,6 +1,6 @@
 package com.fxtahe.fxblog.mapper;
 
-import com.fxtahe.fxblog.entity.TagRelationship;
+import com.fxtahe.fxblog.entity.Relationship;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author fxtahe
  * @since 2020-04-15
  */
-public interface TagRelationshipMapper extends BaseMapper<TagRelationship> {
+public interface RelationshipMapper extends BaseMapper<Relationship> {
 
 }
