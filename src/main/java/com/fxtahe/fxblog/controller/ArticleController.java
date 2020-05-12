@@ -5,6 +5,8 @@ import com.fxtahe.fxblog.config.annotation.ResponseWrapper;
 import com.fxtahe.fxblog.entity.Article;
 import com.fxtahe.fxblog.service.ArticleService;
 import com.fxtahe.fxblog.vo.ArticleVo;
+import com.fxtahe.fxblog.vo.PageRequest;
+import com.fxtahe.fxblog.vo.PageResponse;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -26,10 +28,9 @@ public class ArticleController {
     @Resource
     private ArticleService articleService;
 
-
     @GetMapping("/get/feature")
-    public List<ArticleVo> findFeatureArticle(){
-        return articleService.findFeatureArticle();
+    public List<ArticleVo> getFeatureArticle(){
+        return articleService.getFeatureArticle();
     }
 
     @GetMapping("/get/{id}")
@@ -37,12 +38,20 @@ public class ArticleController {
         return articleService.getById(id);
     }
 
+    @PostMapping("/get/page")
+    public PageResponse<ArticleVo> getArticleVoPage(@RequestBody PageRequest<ArticleVo> pageRequest){
+        return articleService.getArticleVoPage(pageRequest);
+    }
+
     @DeleteMapping("/delete/{id}")
     public void deleteArticle(@PathVariable Integer id){
         articleService.deleteArticle(id);
     }
 
-
+    @PutMapping("/update")
+    public void updateArticle(ArticleVo articleVo){
+        articleService.updateArticleVo(articleVo);
+    }
 
 
 }

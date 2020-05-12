@@ -27,19 +27,28 @@
             <result property="categoryName" column="category_name"/>
         </association>
         <collection property="tags" ofType="com.fxtahe.fxblog.entity.Tag">
-            <id property="id" column="tag_id"/>
-            <result property="tagName" column="tag_name"/>
+            <id property="id" column="tag_id" />
+            <result property="tagName" column="tag_name" />
         </collection>
+    </resultMap>
+    <resultMap id="TagResultMap" type="com.fxtahe.fxblog.entity.Tag">
+        <id property="id" column="tag_id" />
+        <result property="tagName" column="tag_name" />
     </resultMap>
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, author_id, title, excerpt, content, markdown, likes, views, create_date, update_date, status, category_id
+        id, author_id, title, excerpt, content, markdown, likes, views, create_date, update_date, state
     </sql>
 
     <select id="selectPage" resultMap="BaseResultMap">
-        SELECT id, author_id, title, excerpt, markdown, likes, views, create_date, update_date, status, category_id FROM article WHERE state=#{state}
+        SELECT id, author_id, title, excerpt, markdown, likes, views, create_date, update_date, state FROM article WHERE state=#{state}
     </select>
-
+    <select id="selectRelationTags" resultType="list" resultMap="TagResultMap">
+        select t.id as tag_id,t.tag_name from tag t
+        join relationship r
+        on t.id= r.r_id and r.r_type='tag'
+        where r.article_id = #{id}
+    </select>
     <select id="selectFeatureArticles" resultMap="ArticleVoResultMap">
         select a.*,t.id as tag_id,author.author_name,t.tag_name,c.id as category_id,c.category_name
         from article a
@@ -48,5 +57,150 @@
         LEFT JOIN tag t on t.id = r.r_id and r.r_type='tag'
         LEFT JOIN category c on c.id = r.r_id and r.r_type = 'category'
         where a.state = '2'
+    </select>
+    <select id="selectArticleVoPage" parameterType="com.fxtahe.fxblog.vo.PageRequest" resultMap="ArticleVoResultMap">
+        select
+        tmp.*, t.id as tag_id,t.tag_name
+        from
+        (select a.*,author.author_name,c.id as category_id,c.category_name
+        from article a
+        LEFT JOIN author on a.author_id = author.id
+        LEFT JOIN relationship r on a.id=r.article_id and r.r_type = 'category'
+        LEFT JOIN category c on c.id = r.r_id
+        <where>
+            <if test="data != null">
+                <if test="data.id != null">
+                    and a.id = #{data.id}
+                </if>
+                <if test="data.authorId != null">
+                    and a.author_id=#{data.authorId}
+                </if>
+                <if test="data.title != null and data.title != ''">
+                    and a.title like concat('%',#{data.title },'%')
+                </if>
+                <if test="data.likes != null">
+                    and a.likes &gt; #{data.likes}
+                </if>
+                <if test="data.views != null">
+                    and a.views &gt; #{data.views}
+                </if>
+                <if test="data.category != null and data.category.id != null">
+                    and c.id = #{data.category.id}
+                </if>
+                <if test="data.state != null">
+                    and a.state = #{data.state}
+                </if>
+            </if>
+        </where>
+        order by a.update_date desc
+        limit
+            #{limit} , #{size}
+            ) tmp
+        LEFT JOIN relationship r on tmp.id=r.article_id and r.r_type = 'tag'
+        LEFT JOIN tag t on t.id = r.r_id
+        <where>
+            <if test="data != null">
+                <if test="data.tags != null and data.tags.size != 0">
+                    and t.id in
+                    <foreach item="tag" index="index" collection="data.tags"
+                             open="(" separator="," close=")">
+                        #{tag.id}
+                    </foreach>
+                </if>
+            </if>
+        </where>
+    </select>
+    <select id="selectCountArticleVoPage" parameterType="com.fxtahe.fxblog.vo.ArticleVo" resultType="long">
+
+        select count(DISTINCT tbl.id) from
+        (select
+        tmp.*, t.id as tag_id,t.tag_name
+        from
+        (select a.*,author.author_name,c.id as category_id,c.category_name
+        from article a
+        LEFT JOIN author on a.author_id = author.id
+        LEFT JOIN relationship r on a.id=r.article_id and r.r_type = 'category'
+        LEFT JOIN category c on c.id = r.r_id
+        <where>
+            <if test="data != null">
+                <if test="data.id != null">
+                    and a.id = #{data.id}
+                </if>
+                <if test="data.authorId != null">
+                    and a.author_id=#{data.authorId}
+                </if>
+                <if test="data.title != null and data.title != ''">
+                    and a.title like concat('%',#{data.title },'%')
+                </if>
+                <if test="data.likes != null">
+                    and a.likes &gt; #{data.likes}
+                </if>
+                <if test="data.views != null">
+                    and a.views &gt; #{data.views}
+                </if>
+                <if test="data.category != null and data.category.id != null">
+                    and c.id = #{data.category.id}
+                </if>
+                <if test="data.state != null">
+                    and a.state = #{data.state}
+                </if>
+            </if>
+        </where>
+        ) tmp
+        LEFT JOIN relationship r on tmp.id=r.article_id and r.r_type = 'tag'
+        LEFT JOIN tag t on t.id = r.r_id
+        <where>
+            <if test="data != null">
+                <if test="data.tags != null and data.tags.size != 0">
+                    and t.id in
+                    <foreach item="tag" index="index" collection="data.tags"
+                             open="(" separator="," close=")">
+                        #{tag.id}
+                    </foreach>
+                </if>
+            </if>
+        </where>) tbl
+    </select>
+    <select id="selectArticleVoPage1" parameterType="com.fxtahe.fxblog.vo.ArticleVo" resultMap="ArticleVoResultMap">
+        select * from
+        (select a.*,t.id as tag_id,author.author_name,t.tag_name,c.id as category_id,c.category_name
+        from article a
+        LEFT JOIN author on a.author_id = author.id
+        LEFT JOIN relationship r on a.id=r.article_id
+        LEFT JOIN tag t on t.id = r.r_id and r.r_type='tag'
+        LEFT JOIN category c on c.id = r.r_id and r.r_type = 'category') as r
+        <where>
+            <if test="articleVo != null">
+                <if test="articleVo.id != null">
+                    and r.id=#{articleVo.id}
+                </if>
+                <if test="articleVo.authorId != null">
+                    and r.author_id=#{articleVo.authorId}
+                </if>
+                <if test="articleVo.title != null">
+                    and r.title like concat('%',#{articleVo.title },'%')
+                </if>
+                <if test="articleVo.likes != null">
+                    and r.likes &gt; #{articleVo.likes}
+                </if>
+                <if test="articleVo.views != null">
+                    and r.views &gt; #{articleVo.views}
+                </if>
+                <if test="articleVo.category != null and articleVo.category.id != null">
+                    and r.category_id = #{articleVo.category.id}
+                </if>
+                <if test="articleVo.tags != null and articleVo.tags.size != 0">
+                    and r.tag_id in
+                    <foreach item="tag" index="index" collection="articleVo.tags"
+                             open="(" separator="," close=")">
+                        #{tag.id}
+                    </foreach>
+                </if>
+                <if test="articleVo.state != null">
+                    and r.state = #{articleVo.state}
+                </if>
+            </if>
+            order by update_date desc
+        </where>
     </select>
 </mapper>

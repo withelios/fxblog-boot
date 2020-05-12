@@ -8,6 +8,7 @@ import com.fxtahe.fxblog.service.CategoryService;
 import com.fxtahe.fxblog.service.RelationshipService;
 import com.fxtahe.fxblog.util.Const;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
@@ -19,6 +20,7 @@ import javax.annotation.Resource;
  * @author fxtahe
  * @since 2020-04-15
  */
+@Transactional(rollbackFor = Exception.class)
 @Service
 public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> implements CategoryService {
 
