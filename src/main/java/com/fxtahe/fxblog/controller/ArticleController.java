@@ -14,7 +14,7 @@ import java.util.List;
 
 /**
  * <p>
- *  前端控制器
+ *  Article前端控制器
  * </p>
  *
  * @author fxtahe
@@ -43,6 +43,10 @@ public class ArticleController {
         return articleService.getArticleVoPage(pageRequest);
     }
 
+    @PostMapping("/save")
+    public void saveArticleVo(@RequestBody ArticleVo articleVo){
+        articleService.saveArticleVo(articleVo);
+    }
     @DeleteMapping("/delete/{id}")
     public void deleteArticle(@PathVariable Integer id){
         articleService.deleteArticle(id);
@@ -52,6 +56,7 @@ public class ArticleController {
     public void updateArticle(ArticleVo articleVo){
         articleService.updateArticleVo(articleVo);
     }
+
 
 
 }

@@ -93,8 +93,9 @@
             </if>
         </where>
         order by a.update_date desc
-        limit
-            #{limit} , #{size}
+        <if test="size != 0">
+            limit  #{limit} , #{size}
+        </if>
             ) tmp
         LEFT JOIN relationship r on tmp.id=r.article_id and r.r_type = 'tag'
         LEFT JOIN tag t on t.id = r.r_id
@@ -111,7 +112,6 @@
         </where>
     </select>
     <select id="selectCountArticleVoPage" parameterType="com.fxtahe.fxblog.vo.ArticleVo" resultType="long">
-
         select count(DISTINCT tbl.id) from
         (select
         tmp.*, t.id as tag_id,t.tag_name

@@ -35,6 +35,12 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     private RelationshipService relationshipService;
 
     @Override
+    public void saveArticleVo(ArticleVo articleVo) {
+        articleVo.insert();
+        saveOrUpdateRelation(articleVo);
+    }
+
+    @Override
     public List<ArticleVo> getFeatureArticle() {
         return baseMapper.selectFeatureArticles();
     }
@@ -55,21 +61,24 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         return new PageResponse<ArticleVo>().setCurrent(current).setSize(size).setData(result).setTotal(total);
 
 
-
     }
 
     @Override
     public void deleteArticle(Integer id) {
         removeById(id);
         relationshipService.deleteByCondition(new Relationship().setArticleId(id));
+
     }
 
     @Override
     public void updateArticleVo(ArticleVo articleVo) {
-        Integer id = articleVo.getId();
-        articleVo.insertOrUpdate();
+        articleVo.updateById();
+        relationshipService.deleteByCondition(new Relationship().setArticleId(articleVo.getId()));
+        saveOrUpdateRelation(articleVo);
+    }
 
-        relationshipService.deleteByCondition(new Relationship().setArticleId(id));
+    public void saveOrUpdateRelation(ArticleVo articleVo){
+        Integer id = articleVo.getId();
         List<Tag> tags = articleVo.getTags();
         Relationship relationship = new Relationship();
         if (!CollectionUtils.isEmpty(tags)) {

@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * <p>
- *  前端控制器
+ *  Category前端控制器
  * </p>
  *
  * @author fxtahe
@@ -26,12 +26,12 @@ public class CategoryController {
 
     @PostMapping("/save")
     public void saveCategory(Category category){
-        categoryService.save(category);
+        categoryService.saveOrUpdate(category);
     }
 
-    @GetMapping("/get/page/{current}")
-    public Page<Category> getPage(@PathVariable Long current){
-        return categoryService.page(new Page<Category>().setCurrent(current));
+    @GetMapping("/get/page/{current}/{size}")
+    public Page<Category> getPage(@PathVariable Long current,@PathVariable Long size){
+        return categoryService.page(new Page<Category>().setCurrent(current).setSize(size));
     }
 
     @GetMapping("/get/list")
@@ -44,15 +44,9 @@ public class CategoryController {
         return categoryService.getById(id);
     }
 
-
     @DeleteMapping("/delete/{id}")
     public void deleteById(@PathVariable Integer id){
         categoryService.deleteCategory(id);
-    }
-
-    @PutMapping("/update")
-    public void updateCategory(Category category){
-        categoryService.updateById(category);
     }
 
 }

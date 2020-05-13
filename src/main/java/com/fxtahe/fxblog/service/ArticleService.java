@@ -10,13 +10,20 @@ import java.util.List;
 
 /**
  * <p>
- *  服务类
+ *  文章服务接口
  * </p>
  *
  * @author fxtahe
  * @since 2020-04-15
  */
 public interface ArticleService extends IService<Article> {
+
+    /**
+     * 新建文章
+     * @param articleVo
+     */
+    void saveArticleVo(ArticleVo articleVo);
+
     /**
      * 查询推荐文章
      * @return List<ArticleVo>
@@ -41,5 +48,6 @@ public interface ArticleService extends IService<Article> {
      * @param articleVo 文章数据
      */
     void updateArticleVo(ArticleVo articleVo);
+
 
 }

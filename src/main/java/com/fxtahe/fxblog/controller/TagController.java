@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * <p>
- *  前端控制器
+ *  Tag前端控制器
  * </p>
  *
  * @author fxtahe
@@ -26,12 +26,12 @@ public class TagController {
 
     @PostMapping("/save")
     public void saveTag(Tag tag){
-        tagService.save(tag);
+        tagService.saveOrUpdate(tag);
     }
 
-    @GetMapping("/get/page/{current}")
-    public Page<Tag> getPage(@PathVariable Long current){
-        return tagService.page(new Page<Tag>().setCurrent(current));
+    @GetMapping("/get/page/{current}/{size}")
+    public Page<Tag> getPage(@PathVariable Long current,@PathVariable Long size){
+        return tagService.page(new Page<Tag>().setCurrent(current).setSize(size));
     }
 
     @GetMapping("/get/list")
@@ -49,9 +49,5 @@ public class TagController {
         tagService.deleteTag(id);
     }
 
-    @PutMapping("/update")
-    public void updateTag(Tag tag){
-        tagService.updateById(tag);
-    }
 }
 
