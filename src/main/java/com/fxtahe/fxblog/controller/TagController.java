@@ -1,7 +1,9 @@
 package com.fxtahe.fxblog.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fxtahe.fxblog.config.annotation.ResponseWrapper;
 import com.fxtahe.fxblog.entity.Tag;
 import com.fxtahe.fxblog.service.TagService;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +19,7 @@ import java.util.List;
  * @author fxtahe
  * @since 2020-04-15
  */
+@ResponseWrapper
 @RestController
 @RequestMapping("/tag")
 public class TagController {
@@ -29,12 +32,12 @@ public class TagController {
         tagService.saveOrUpdate(tag);
     }
 
-    @GetMapping("/get/page/{current}/{size}")
+    @GetMapping("/page/{current}/{size}")
     public Page<Tag> getPage(@PathVariable Long current,@PathVariable Long size){
         return tagService.page(new Page<Tag>().setCurrent(current).setSize(size));
     }
 
-    @GetMapping("/get/list")
+    @GetMapping("/list")
     public List<Tag> getList(){
         return tagService.list();
     }
@@ -44,10 +47,18 @@ public class TagController {
         return tagService.getById(id);
     }
 
+    @GetMapping("/search/{name}")
+    public List<Tag> searchTag(@PathVariable String name){
+        return tagService.list(new QueryWrapper<Tag>().like("tag_name",name));
+    }
     @DeleteMapping("/delete/{id}")
     public void deleteTag(@PathVariable Integer id){
         tagService.deleteTag(id);
     }
 
+    @PutMapping("/update")
+    public void updateCategory(@RequestBody Tag tag){
+        tagService.updateById(tag);
+    }
 }
 

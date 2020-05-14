@@ -2,6 +2,7 @@ package com.fxtahe.fxblog.controller;
 
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fxtahe.fxblog.config.annotation.ResponseWrapper;
 import com.fxtahe.fxblog.entity.Category;
 import com.fxtahe.fxblog.service.CategoryService;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ import java.util.List;
  * @author fxtahe
  * @since 2020-04-15
  */
+@ResponseWrapper
 @RestController
 @RequestMapping("/category")
 public class CategoryController {
@@ -26,15 +28,14 @@ public class CategoryController {
 
     @PostMapping("/save")
     public void saveCategory(Category category){
-        categoryService.saveOrUpdate(category);
+        categoryService.save(category);
     }
 
-    @GetMapping("/get/page/{current}/{size}")
+    @GetMapping("/page/{current}/{size}")
     public Page<Category> getPage(@PathVariable Long current,@PathVariable Long size){
         return categoryService.page(new Page<Category>().setCurrent(current).setSize(size));
     }
-
-    @GetMapping("/get/list")
+    @GetMapping("/list")
     public List<Category> getList(){
         return categoryService.list();
     }
@@ -49,5 +50,9 @@ public class CategoryController {
         categoryService.deleteCategory(id);
     }
 
+    @PutMapping("/update")
+    public void updateCategory(@RequestBody Category category){
+        categoryService.updateById(category);
+    }
 }
 

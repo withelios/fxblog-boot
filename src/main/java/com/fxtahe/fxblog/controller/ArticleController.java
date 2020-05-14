@@ -28,7 +28,7 @@ public class ArticleController {
     @Resource
     private ArticleService articleService;
 
-    @GetMapping("/get/feature")
+    @GetMapping("/feature")
     public List<ArticleVo> getFeatureArticle(){
         return articleService.getFeatureArticle();
     }
@@ -38,7 +38,7 @@ public class ArticleController {
         return articleService.getById(id);
     }
 
-    @PostMapping("/get/page")
+    @PostMapping("/page")
     public PageResponse<ArticleVo> getArticleVoPage(@RequestBody PageRequest<ArticleVo> pageRequest){
         return articleService.getArticleVoPage(pageRequest);
     }
