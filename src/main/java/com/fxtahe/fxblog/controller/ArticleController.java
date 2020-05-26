@@ -1,6 +1,7 @@
 package com.fxtahe.fxblog.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.fxtahe.fxblog.config.annotation.ResponseWrapper;
 import com.fxtahe.fxblog.entity.Article;
 import com.fxtahe.fxblog.service.ArticleService;
@@ -47,16 +48,21 @@ public class ArticleController {
     public void saveArticleVo(@RequestBody ArticleVo articleVo){
         articleService.saveArticleVo(articleVo);
     }
+
     @DeleteMapping("/delete/{id}")
     public void deleteArticle(@PathVariable Integer id){
         articleService.deleteArticle(id);
     }
 
     @PutMapping("/update")
-    public void updateArticle(ArticleVo articleVo){
+    public void updateArticle(@RequestBody ArticleVo articleVo){
         articleService.updateArticleVo(articleVo);
     }
 
+    @PutMapping("/feature")
+    public void updateFeature(@RequestBody Article article){
+        articleService.update(new UpdateWrapper<Article>().eq("id",article.getId()).set("feature",article.getFeature()));
+    }
 
 
 }

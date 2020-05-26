@@ -39,7 +39,7 @@ public class TagController {
 
     @GetMapping("/list")
     public List<Tag> getList(){
-        return tagService.list();
+        return tagService.list(new QueryWrapper<Tag>().orderByAsc("id"));
     }
 
     @GetMapping("/get/{id}")
@@ -49,7 +49,7 @@ public class TagController {
 
     @GetMapping("/search/{name}")
     public List<Tag> searchTag(@PathVariable String name){
-        return tagService.list(new QueryWrapper<Tag>().like("tag_name",name));
+        return tagService.list(new QueryWrapper<Tag>().like("tag_name",name).orderByAsc("id"));
     }
     @DeleteMapping("/delete/{id}")
     public void deleteTag(@PathVariable Integer id){

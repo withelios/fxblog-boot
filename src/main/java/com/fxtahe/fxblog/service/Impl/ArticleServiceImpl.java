@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -36,6 +37,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Override
     public void saveArticleVo(ArticleVo articleVo) {
+        LocalDateTime now = LocalDateTime.now();
+        articleVo.setCreateDate(now);
+        articleVo.setUpdateDate(now);
         articleVo.insert();
         saveOrUpdateRelation(articleVo);
     }
@@ -72,6 +76,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Override
     public void updateArticleVo(ArticleVo articleVo) {
+        articleVo.setUpdateDate(LocalDateTime.now());
         articleVo.updateById();
         relationshipService.deleteByCondition(new Relationship().setArticleId(articleVo.getId()));
         saveOrUpdateRelation(articleVo);
@@ -89,7 +94,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                             .setRType(Const.TAG_TYPE).insert();
                 } else {
                     tag.insert();
-                    relationship.setRId(tag.getId()).insert();
+                    relationship.setRId(tag.getId()).setArticleId(id)
+                            .setRType(Const.TAG_TYPE).insert();
                 }
             }
         }

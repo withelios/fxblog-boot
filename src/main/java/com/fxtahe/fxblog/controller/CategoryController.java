@@ -1,6 +1,7 @@
 package com.fxtahe.fxblog.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fxtahe.fxblog.config.annotation.ResponseWrapper;
 import com.fxtahe.fxblog.entity.Category;
@@ -27,7 +28,7 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @PostMapping("/save")
-    public void saveCategory(Category category){
+    public void saveCategory(@RequestBody Category category){
         categoryService.save(category);
     }
 
@@ -37,12 +38,18 @@ public class CategoryController {
     }
     @GetMapping("/list")
     public List<Category> getList(){
-        return categoryService.list();
+        return categoryService.list(new QueryWrapper<Category>().orderByAsc("id"));
     }
 
     @GetMapping("/get/{id}")
     public Category getById(@PathVariable Integer id){
         return categoryService.getById(id);
+    }
+
+    @GetMapping("/search/{value}")
+    public List<Category> searchTag(@PathVariable String value){
+        return categoryService.list(new QueryWrapper<Category>().like("category_name",value)
+                .or().like("description",value).orderByAsc("id"));
     }
 
     @DeleteMapping("/delete/{id}")

@@ -8,8 +8,9 @@ package com.fxtahe.fxblog.util;
  */
 public class Const {
 
+
     /*
-    文章状态 1.草稿 2.发布 3.删除
+    文章状态 1.草稿 2.发布 3.已删除
      */
     public final static Integer ARTICLE_DRAFT = 1;
     public final static Integer ARTICLE_POSTED = 2;

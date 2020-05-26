@@ -7,6 +7,7 @@
         <id column="id" property="id" />
         <result column="author_id" property="authorId" />
         <result column="title" property="title" />
+        <result column="cover" property="cover" />
         <result column="excerpt" property="excerpt" />
         <result column="content" property="content" />
         <result column="markdown" property="markdown" />
@@ -37,11 +38,11 @@
     </resultMap>
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, author_id, title, excerpt, content, markdown, likes, views, create_date, update_date, state
+        id, author_id, title, cover, excerpt, content, markdown, likes, views, create_date, update_date, state
     </sql>
 
     <select id="selectPage" resultMap="BaseResultMap">
-        SELECT id, author_id, title, excerpt, markdown, likes, views, create_date, update_date, state FROM article WHERE state=#{state}
+        SELECT <include refid="Base_Column_List" /> FROM article WHERE state=#{state}
     </select>
     <select id="selectRelationTags" resultType="list" resultMap="TagResultMap">
         select t.id as tag_id,t.tag_name from tag t
@@ -56,7 +57,7 @@
         LEFT JOIN relationship r on a.id=r.article_id
         LEFT JOIN tag t on t.id = r.r_id and r.r_type='tag'
         LEFT JOIN category c on c.id = r.r_id and r.r_type = 'category'
-        where a.state = '2'
+        where a.feature = 1 and a.state = 2
     </select>
     <select id="selectArticleVoPage" parameterType="com.fxtahe.fxblog.vo.PageRequest" resultMap="ArticleVoResultMap">
         select
