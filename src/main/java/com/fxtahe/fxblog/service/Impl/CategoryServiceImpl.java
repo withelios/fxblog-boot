@@ -1,5 +1,6 @@
 package com.fxtahe.fxblog.service.Impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fxtahe.fxblog.entity.Category;
 import com.fxtahe.fxblog.entity.Relationship;
@@ -28,8 +29,8 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     private RelationshipService relationshipService;
 
     @Override
-    public void deleteCategory(Integer id) {
-        removeById(id);
+    public void deleteCategory(Integer id,Integer userId) {
+        baseMapper.delete(new QueryWrapper<Category>().eq(userId!=null,"author_id",userId).eq("id",id));
         relationshipService.deleteByCondition(new Relationship().setRId(id).setRType(Const.CATEGORY_TYPE));
     }
 }

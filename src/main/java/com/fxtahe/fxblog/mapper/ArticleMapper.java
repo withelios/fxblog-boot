@@ -18,10 +18,11 @@ import java.util.List;
  */
 public interface ArticleMapper extends BaseMapper<Article> {
 
-    //IPage<Article> selectPageVo(Page<?> page, Integer state);
     List<ArticleVo> selectFeatureArticles();
 
     List<ArticleVo> selectArticleVoPage(PageRequest<ArticleVo> articleVo);
+
+    ArticleVo selectArticleVo(Article article);
 
     Long selectCountArticleVoPage(PageRequest<ArticleVo>  articleVo);
 

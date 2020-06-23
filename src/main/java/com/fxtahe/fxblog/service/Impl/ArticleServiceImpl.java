@@ -1,5 +1,6 @@
 package com.fxtahe.fxblog.service.Impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fxtahe.fxblog.entity.Article;
 import com.fxtahe.fxblog.entity.Category;
@@ -36,12 +37,18 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     private RelationshipService relationshipService;
 
     @Override
-    public void saveArticleVo(ArticleVo articleVo) {
+    public void saveArticleVo(ArticleVo articleVo,Integer userId) {
+        articleVo.setAuthorId(userId);
         LocalDateTime now = LocalDateTime.now();
         articleVo.setCreateDate(now);
         articleVo.setUpdateDate(now);
         articleVo.insert();
-        saveOrUpdateRelation(articleVo);
+        saveOrUpdateRelation(articleVo,userId);
+    }
+
+    @Override
+    public ArticleVo getArticleVo(Article article,Integer userId) {
+        return baseMapper.selectArticleVo(article);
     }
 
     @Override
@@ -50,39 +57,33 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
-    public PageResponse<ArticleVo> getArticleVoPage(PageRequest<ArticleVo> pageRequest) {
-
+    public PageResponse<ArticleVo> getArticleVoPage(PageRequest<ArticleVo> pageRequest,Integer userId) {
+        pageRequest.setData((ArticleVo) pageRequest.getData().setAuthorId(userId));
         Long current = pageRequest.getCurrent();
         Long size = pageRequest.getSize();
-        ArticleVo data = pageRequest.getData();
         if(current <=0){
             current = 1L;
         }
         pageRequest.setLimit((current-1)*size);
         List<ArticleVo> result =  baseMapper.selectArticleVoPage(pageRequest);
-
         Long total = baseMapper.selectCountArticleVoPage(pageRequest);
         return new PageResponse<ArticleVo>().setCurrent(current).setSize(size).setData(result).setTotal(total);
-
-
     }
 
     @Override
-    public void deleteArticle(Integer id) {
-        removeById(id);
+    public void deleteArticle(Integer id,Integer userId) {
+        baseMapper.delete(new QueryWrapper<Article>().eq("id",id).eq(userId!=null,"author_id",userId));
         relationshipService.deleteByCondition(new Relationship().setArticleId(id));
-
     }
 
     @Override
-    public void updateArticleVo(ArticleVo articleVo) {
+    public void updateArticleVo(ArticleVo articleVo,Integer userId) {
         articleVo.setUpdateDate(LocalDateTime.now());
-        articleVo.updateById();
         relationshipService.deleteByCondition(new Relationship().setArticleId(articleVo.getId()));
-        saveOrUpdateRelation(articleVo);
+        saveOrUpdateRelation(articleVo,userId);
     }
 
-    public void saveOrUpdateRelation(ArticleVo articleVo){
+    public void saveOrUpdateRelation(ArticleVo articleVo,Integer userId){
         Integer id = articleVo.getId();
         List<Tag> tags = articleVo.getTags();
         Relationship relationship = new Relationship();
@@ -93,6 +94,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                     relationship.setRId(tId).setArticleId(id)
                             .setRType(Const.TAG_TYPE).insert();
                 } else {
+                    tag.setAuthorId(userId);
                     tag.insert();
                     relationship.setRId(tag.getId()).setArticleId(id)
                             .setRType(Const.TAG_TYPE).insert();
@@ -102,6 +104,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         Category category = articleVo.getCategory();
         if(category != null){
             if(category.getId() == null){
+                category.setAuthorId(userId);
                 category.insert();
             }
             relationship.setRId(category.getId()).setArticleId(id).setRType(Const.CATEGORY_TYPE);

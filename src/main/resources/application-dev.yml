@@ -1,8 +1,9 @@
+server:
+  port: 8001
 
 logging:
   level:
-    com.fxtahe.fxblog.mapper:
-      debug
+    com.fxtahe.fxblog.mapper: debug
 
 spring:
   datasource:
@@ -14,3 +15,15 @@ spring:
     username: root
     password: root
     driver-class-name: com.mysql.jdbc.Driver
+  cache:
+    type: caffeine
+    cache-names: boot
+    caffeine:
+      spec: initialCapacity=50,maximumSize=500,expireAfterAccess=7d
+
+token:
+  header: Authorization
+  secret: c0295e3d-e1b3-4a5e-aa49-1b7209363d14
+  access-expiration: 10
+  refresh-expiration: 3600
+  roleClaims: role

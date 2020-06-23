@@ -1,5 +1,6 @@
 package com.fxtahe.fxblog.service.Impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fxtahe.fxblog.entity.Relationship;
 import com.fxtahe.fxblog.entity.Tag;
@@ -28,8 +29,9 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
     private RelationshipService relationshipService;
 
     @Override
-    public void deleteTag(Integer id) {
-        this.removeById(id);
+    public void deleteTag(Integer id,Integer userId) {
+        baseMapper.delete(new QueryWrapper<Tag>().eq(userId!=null,"author_id",userId)
+                .eq("id",id));
         relationshipService.deleteByCondition(new Relationship().setRId(id).setRType(Const.TAG_TYPE));
     }
 }

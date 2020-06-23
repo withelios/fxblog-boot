@@ -3,6 +3,7 @@ package com.fxtahe.fxblog.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fxtahe.fxblog.config.annotation.AuthorParameter;
 import com.fxtahe.fxblog.config.annotation.ResponseWrapper;
 import com.fxtahe.fxblog.entity.Tag;
 import com.fxtahe.fxblog.service.TagService;
@@ -21,7 +22,7 @@ import java.util.List;
  */
 @ResponseWrapper
 @RestController
-@RequestMapping("/tag")
+@RequestMapping("/author/tag")
 public class TagController {
 
     @Resource
@@ -33,32 +34,40 @@ public class TagController {
     }
 
     @GetMapping("/page/{current}/{size}")
-    public Page<Tag> getPage(@PathVariable Long current,@PathVariable Long size){
-        return tagService.page(new Page<Tag>().setCurrent(current).setSize(size));
+    public Page<Tag> getPage(@PathVariable Long current, @PathVariable Long size, @AuthorParameter Integer userId){
+        return tagService.page(
+                new Page<Tag>().setCurrent(current).setSize(size)
+                ,new QueryWrapper<Tag>().eq(userId!=null,"author_id",userId));
     }
 
     @GetMapping("/list")
-    public List<Tag> getList(){
-        return tagService.list(new QueryWrapper<Tag>().orderByAsc("id"));
+    public List<Tag> getList(@AuthorParameter Integer userId){
+        return tagService.list(new QueryWrapper<Tag>()
+                .eq(userId!=null,"author_id",userId)
+                .orderByAsc("id"));
     }
 
     @GetMapping("/get/{id}")
-    public Tag getById(@PathVariable Integer id){
-        return tagService.getById(id);
+    public Tag getById(@PathVariable Integer id,@AuthorParameter Integer userId){
+        return tagService.getOne(new QueryWrapper<Tag>().eq(userId!=null,"author_id",userId).eq("id",id));
     }
 
     @GetMapping("/search/{name}")
-    public List<Tag> searchTag(@PathVariable String name){
-        return tagService.list(new QueryWrapper<Tag>().like("tag_name",name).orderByAsc("id"));
+    public List<Tag> searchTag(@PathVariable String name,@AuthorParameter Integer userId){
+        return tagService.list(new QueryWrapper<Tag>()
+                .eq(userId!=null,"author_id",userId)
+                .like("tag_name",name).orderByAsc("id"));
     }
     @DeleteMapping("/delete/{id}")
-    public void deleteTag(@PathVariable Integer id){
-        tagService.deleteTag(id);
+    public void deleteTag(@PathVariable Integer id,@AuthorParameter Integer userId){
+        tagService.deleteTag(id,userId);
     }
 
     @PutMapping("/update")
-    public void updateCategory(@RequestBody Tag tag){
-        tagService.updateById(tag);
+    public void updateCategory(@RequestBody Tag tag,@AuthorParameter Integer userId){
+        tagService.update(tag,new QueryWrapper<Tag>()
+                .eq(userId!=null,"author_id",userId)
+                .eq("id",tag.getId()));
     }
 }
 

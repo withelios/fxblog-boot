@@ -29,6 +29,7 @@ public class Tag extends Model<Tag> {
 
     private String tagName;
 
+    private Integer authorId;
 
     @Override
     protected Serializable pkVal() {

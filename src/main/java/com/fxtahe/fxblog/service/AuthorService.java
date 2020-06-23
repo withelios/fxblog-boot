@@ -2,6 +2,7 @@ package com.fxtahe.fxblog.service;
 
 import com.fxtahe.fxblog.entity.Author;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.fxtahe.fxblog.vo.AuthorVo;
 
 /**
  * <p>
@@ -13,4 +14,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface AuthorService extends IService<Author> {
 
+    void register(Author author);
+
+    AuthorVo getAuthorInfo(Integer id);
 }

@@ -22,6 +22,10 @@
         <association property="author" javaType="com.fxtahe.fxblog.entity.Author">
             <id property="id" column="author_id"/>
             <result property="authorName" column="author_name"/>
+            <result column="avatar" property="avatar" />
+            <result column="github" property="github" />
+            <result column="email" property="email" />
+            <result column="introduction" property="introduction" />
         </association>
         <association property="category" javaType="com.fxtahe.fxblog.entity.Category">
             <id property="id" column="category_id"/>
@@ -51,7 +55,8 @@
         where r.article_id = #{id}
     </select>
     <select id="selectFeatureArticles" resultMap="ArticleVoResultMap">
-        select a.*,t.id as tag_id,author.author_name,t.tag_name,c.id as category_id,c.category_name
+        select a.*,t.id as tag_id,author.id,author.author_name,author.avatar,author.github,author.email,author.introduction,
+        t.tag_name,c.id as category_id,c.category_name
         from article a
         LEFT JOIN author on a.author_id = author.id
         LEFT JOIN relationship r on a.id=r.article_id
@@ -59,11 +64,35 @@
         LEFT JOIN category c on c.id = r.r_id and r.r_type = 'category'
         where a.feature = 1 and a.state = 2
     </select>
+    <select id="selectArticleVo" parameterType="com.fxtahe.fxblog.entity.Article" resultMap="ArticleVoResultMap">
+        select a.*,t.id as tag_id,author.id,author.author_name,author.avatar,author.github,author.email,author.introduction,
+        t.tag_name,c.id as category_id,c.category_name
+        from article a
+        LEFT JOIN author on a.author_id = author.id
+        LEFT JOIN relationship r on a.id=r.article_id
+        LEFT JOIN tag t on t.id = r.r_id and r.r_type='tag'
+        LEFT JOIN category c on c.id = r.r_id and r.r_type = 'category'
+        where a.id = #{id}
+        <if test="title != null">
+            and a.title like concat('%',#{title},'%')
+        </if>
+        <if test="state != null">
+            and a.state = #{state}
+        </if>
+        <if test="authorId != null">
+            and a.authorId = #{authorId}
+        </if>
+        <if test="authorName != null">
+            and a.author_name = #{authorName}
+        </if>
+        order by a.update_date desc
+    </select>
     <select id="selectArticleVoPage" parameterType="com.fxtahe.fxblog.vo.PageRequest" resultMap="ArticleVoResultMap">
         select
         tmp.*, t.id as tag_id,t.tag_name
         from
-        (select a.*,author.author_name,c.id as category_id,c.category_name
+        (select a.*,author.author_name,author.avatar,author.github,author.email,author.introduction,
+        c.id as category_id,c.category_name
         from article a
         LEFT JOIN author on a.author_id = author.id
         LEFT JOIN relationship r on a.id=r.article_id and r.r_type = 'category'
@@ -117,7 +146,8 @@
         (select
         tmp.*, t.id as tag_id,t.tag_name
         from
-        (select a.*,author.author_name,c.id as category_id,c.category_name
+        (select a.*,author.author_name,author.avatar,author.github,author.email,author.introduction,
+        c.id as category_id,c.category_name
         from article a
         LEFT JOIN author on a.author_id = author.id
         LEFT JOIN relationship r on a.id=r.article_id and r.r_type = 'category'
@@ -162,46 +192,46 @@
             </if>
         </where>) tbl
     </select>
-    <select id="selectArticleVoPage1" parameterType="com.fxtahe.fxblog.vo.ArticleVo" resultMap="ArticleVoResultMap">
-        select * from
-        (select a.*,t.id as tag_id,author.author_name,t.tag_name,c.id as category_id,c.category_name
-        from article a
-        LEFT JOIN author on a.author_id = author.id
-        LEFT JOIN relationship r on a.id=r.article_id
-        LEFT JOIN tag t on t.id = r.r_id and r.r_type='tag'
-        LEFT JOIN category c on c.id = r.r_id and r.r_type = 'category') as r
-        <where>
-            <if test="articleVo != null">
-                <if test="articleVo.id != null">
-                    and r.id=#{articleVo.id}
-                </if>
-                <if test="articleVo.authorId != null">
-                    and r.author_id=#{articleVo.authorId}
-                </if>
-                <if test="articleVo.title != null">
-                    and r.title like concat('%',#{articleVo.title },'%')
-                </if>
-                <if test="articleVo.likes != null">
-                    and r.likes &gt; #{articleVo.likes}
-                </if>
-                <if test="articleVo.views != null">
-                    and r.views &gt; #{articleVo.views}
-                </if>
-                <if test="articleVo.category != null and articleVo.category.id != null">
-                    and r.category_id = #{articleVo.category.id}
-                </if>
-                <if test="articleVo.tags != null and articleVo.tags.size != 0">
-                    and r.tag_id in
-                    <foreach item="tag" index="index" collection="articleVo.tags"
-                             open="(" separator="," close=")">
-                        #{tag.id}
-                    </foreach>
-                </if>
-                <if test="articleVo.state != null">
-                    and r.state = #{articleVo.state}
-                </if>
+    <update id="updateByIdAndNotNullUserId" parameterType="com.fxtahe.fxblog.vo.ArticleVo">
+        update article
+        <trim prefix="set" suffixOverrides=",">
+            <if test="authorId != null">
+                athor_id = #{authorId}
             </if>
-            order by update_date desc
-        </where>
-    </select>
+            <if test="title != null">
+                title = #{title}
+            </if>
+            <if test="cover !=null">
+                cover = #{cover}
+            </if>
+            <if test="excerpt!=null">
+                excerpt = #{excerpt}
+            </if>
+            <if test="content!=null">
+                content = #{content}
+            </if>
+            <if test="markdown!=null">
+                markdown = #{markdown}
+            </if>
+            <if test="likes!=null">
+                likes = #{likes}
+            </if>
+            <if test="views!=null">
+                views = #{views}
+            </if>
+            <if test="feature!=null">
+                feature = #{feature}
+            </if>
+            <if test="updateDate!=null">
+                update_date = #{updateDate}
+            </if>
+            <if test="state!=null">
+                state = #{state}
+            </if>
+        </trim>
+        where id=#{id}
+        <if test="authorId != null">
+            and author_id = #{authorId}
+        </if>
+    </update>
 </mapper>

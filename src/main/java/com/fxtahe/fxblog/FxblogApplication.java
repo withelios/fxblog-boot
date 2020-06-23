@@ -2,6 +2,7 @@ package com.fxtahe.fxblog;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 
 /**
  * @program fxblog-boot
@@ -9,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author fxtahe
  * @create 2020/04/14
  */
+@EnableCaching
 @SpringBootApplication
 public class FxblogApplication {
 
