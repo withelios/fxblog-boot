@@ -33,10 +33,12 @@ public class Author extends Model<Author> {
     private Integer id;
 
     @NotEmpty(message = "The author name is not allowed to be empty")
-    private String authorName;
+    private String loginName;
     @JsonIgnore
     @NotEmpty(message = "The password is not allowed to be empty")
     private String password;
+
+    private String authorName;
 
     private String avatar;
 

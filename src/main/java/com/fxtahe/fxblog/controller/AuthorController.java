@@ -1,6 +1,7 @@
 package com.fxtahe.fxblog.controller;
 
 
+import com.fxtahe.fxblog.config.annotation.AuthorParameter;
 import com.fxtahe.fxblog.config.annotation.ResponseWrapper;
 import com.fxtahe.fxblog.entity.Author;
 import com.fxtahe.fxblog.security.UserAuthenticationHelper;
@@ -30,6 +31,8 @@ public class AuthorController {
     @Resource
     private AuthorService authorService;
 
+
+
     @PostMapping("/register")
     public Result register(@Valid Author author){
         authorService.register(author);
@@ -41,7 +44,7 @@ public class AuthorController {
         return authorService.list();
     }
 
-    @GetMapping("admin/get/{id}")
+    @GetMapping("/admin/get/{id}")
     public Author getById(@PathVariable Integer id){
         return authorService.getById(id);
     }
@@ -53,5 +56,24 @@ public class AuthorController {
         return authorService.getAuthorInfo(authorId);
     }
 
+    @PutMapping("/update/info")
+    public Result updateInfo(@RequestBody Author author, @AuthorParameter Integer id){
+        author.setId(id);
+        authorService.updateById(author);
+        return Result.success();
+    }
+
+    @PutMapping("/update/password")
+    public Result updatePassword(@RequestBody Author author){
+        UserDetailsImpl currentPrincipal = (UserDetailsImpl) UserAuthenticationHelper.getCurrentPrincipal();
+        Integer authorId = currentPrincipal.getAuthorId();
+        authorService.updateById(author.setId(authorId));
+        return Result.success();
+    }
+    @DeleteMapping("/admin/delete/{id}")
+    public Result deleteAuthor(@PathVariable Integer id){
+        authorService.removeById(id);
+        return Result.success();
+    }
 }
 

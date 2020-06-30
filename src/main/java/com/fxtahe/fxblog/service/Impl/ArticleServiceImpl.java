@@ -47,13 +47,13 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
-    public ArticleVo getArticleVo(Article article,Integer userId) {
+    public ArticleVo getArticleVo(Article article) {
         return baseMapper.selectArticleVo(article);
     }
 
     @Override
-    public List<ArticleVo> getFeatureArticle() {
-        return baseMapper.selectFeatureArticles();
+    public List<ArticleVo> getFeatureArticle(Integer userId) {
+        return baseMapper.selectFeatureArticles(userId);
     }
 
     @Override
@@ -79,6 +79,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Override
     public void updateArticleVo(ArticleVo articleVo,Integer userId) {
         articleVo.setUpdateDate(LocalDateTime.now());
+        articleVo.updateById();
         relationshipService.deleteByCondition(new Relationship().setArticleId(articleVo.getId()));
         saveOrUpdateRelation(articleVo,userId);
     }

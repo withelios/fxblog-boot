@@ -55,7 +55,7 @@
         where r.article_id = #{id}
     </select>
     <select id="selectFeatureArticles" resultMap="ArticleVoResultMap">
-        select a.*,t.id as tag_id,author.id,author.author_name,author.avatar,author.github,author.email,author.introduction,
+        select a.*,t.id as tag_id,author.author_name,author.avatar,author.github,author.email,author.introduction,
         t.tag_name,c.id as category_id,c.category_name
         from article a
         LEFT JOIN author on a.author_id = author.id
@@ -63,28 +63,35 @@
         LEFT JOIN tag t on t.id = r.r_id and r.r_type='tag'
         LEFT JOIN category c on c.id = r.r_id and r.r_type = 'category'
         where a.feature = 1 and a.state = 2
+        <if test="authorId != null">
+            a.author_id =#{authorId}
+        </if>
     </select>
     <select id="selectArticleVo" parameterType="com.fxtahe.fxblog.entity.Article" resultMap="ArticleVoResultMap">
-        select a.*,t.id as tag_id,author.id,author.author_name,author.avatar,author.github,author.email,author.introduction,
+        select a.*,t.id as tag_id,author.author_name,author.avatar,author.github,author.email,author.introduction,
         t.tag_name,c.id as category_id,c.category_name
         from article a
         LEFT JOIN author on a.author_id = author.id
         LEFT JOIN relationship r on a.id=r.article_id
         LEFT JOIN tag t on t.id = r.r_id and r.r_type='tag'
         LEFT JOIN category c on c.id = r.r_id and r.r_type = 'category'
-        where a.id = #{id}
-        <if test="title != null">
-            and a.title like concat('%',#{title},'%')
-        </if>
-        <if test="state != null">
-            and a.state = #{state}
-        </if>
-        <if test="authorId != null">
-            and a.authorId = #{authorId}
-        </if>
-        <if test="authorName != null">
-            and a.author_name = #{authorName}
-        </if>
+        <where>
+            <if test="id != null">
+                a.id = #{id}
+            </if>
+            <if test="title != null">
+                and a.title like concat('%',#{title},'%')
+            </if>
+            <if test="state != null">
+                and a.state = #{state}
+            </if>
+            <if test="authorId != null">
+                and a.authorId = #{authorId}
+            </if>
+            <if test="authorName != null">
+                and a.author_name = #{authorName}
+            </if>
+        </where>
         order by a.update_date desc
     </select>
     <select id="selectArticleVoPage" parameterType="com.fxtahe.fxblog.vo.PageRequest" resultMap="ArticleVoResultMap">

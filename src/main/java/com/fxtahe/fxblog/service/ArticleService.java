@@ -29,13 +29,13 @@ public interface ArticleService extends IService<Article> {
      * @param article
      * @return ArticleVo
      */
-    ArticleVo getArticleVo(Article article,Integer userId);
+    ArticleVo getArticleVo(Article article);
 
     /**
      * 查询推荐文章
      * @return List<ArticleVo>
      */
-    List<ArticleVo> getFeatureArticle();
+    List<ArticleVo> getFeatureArticle(Integer userId);
 
     /**
      *

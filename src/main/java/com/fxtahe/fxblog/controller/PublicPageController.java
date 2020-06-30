@@ -1,10 +1,8 @@
 package com.fxtahe.fxblog.controller;
 
 import com.fxtahe.fxblog.config.annotation.ResponseWrapper;
+import com.fxtahe.fxblog.entity.Article;
 import com.fxtahe.fxblog.service.ArticleService;
-import com.fxtahe.fxblog.service.AuthorService;
-import com.fxtahe.fxblog.service.CategoryService;
-import com.fxtahe.fxblog.service.TagService;
 import com.fxtahe.fxblog.util.Const;
 import com.fxtahe.fxblog.vo.ArticleVo;
 import com.fxtahe.fxblog.vo.PageRequest;
@@ -21,40 +19,30 @@ import java.util.List;
 */
 @RestController
 @ResponseWrapper
-@RequestMapping("/show")
+@RequestMapping("/public")
 public class PublicPageController {
 
     @Resource
     private ArticleService articleService;
 
-    @Resource
-    private TagService tagService;
-
-    @Resource
-    private CategoryService categoryService;
-
-    @Resource
-    private AuthorService authorService;
-
     @GetMapping("/article/feature")
     public List<ArticleVo> getFeatureArticle(){
-        return articleService.getFeatureArticle();
+        return articleService.getFeatureArticle(null);
     }
 
     @GetMapping("/article/get/{id}")
     public ArticleVo getArticleVo(@PathVariable Integer id){
-
-        return null;
+        Article article = new Article();
+        article.setId(id).setState(Const.ARTICLE_POSTED);
+        return articleService.getArticleVo(article);
     }
 
-    @GetMapping("/article/page")
+    @PostMapping("/article/page")
     public PageResponse<ArticleVo> getArticleVoPage(@RequestBody PageRequest<ArticleVo> pageRequest){
         ArticleVo data = pageRequest.getData();
         data.setState(Const.ARTICLE_POSTED);
         pageRequest.setData(data);
-        //return articleService.getArticleVoPage(pageRequest);
-        return null;
+        return articleService.getArticleVoPage(pageRequest,null);
     }
-
 
 }

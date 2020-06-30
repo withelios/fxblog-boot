@@ -5,6 +5,7 @@ import com.fxtahe.fxblog.entity.Article;
 import com.fxtahe.fxblog.entity.Tag;
 import com.fxtahe.fxblog.vo.ArticleVo;
 import com.fxtahe.fxblog.vo.PageRequest;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ import java.util.List;
  */
 public interface ArticleMapper extends BaseMapper<Article> {
 
-    List<ArticleVo> selectFeatureArticles();
+    List<ArticleVo> selectFeatureArticles(@Param("authorId") Integer id);
 
     List<ArticleVo> selectArticleVoPage(PageRequest<ArticleVo> articleVo);
 

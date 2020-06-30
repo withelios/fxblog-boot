@@ -40,7 +40,7 @@ public class AuthorServiceImpl extends ServiceImpl<AuthorMapper, Author> impleme
 
     @Override
     public void register(Author author) {
-        String authorName = author.getAuthorName();
+        String authorName = author.getLoginName();
         List<Author> authors = baseMapper.selectList(new QueryWrapper<Author>().eq("author_name", authorName));
         if(CollectionUtils.isEmpty(authors)){
             baseMapper.insert(author.setPassword(bCryptPasswordEncoder.encode(author.getPassword())));

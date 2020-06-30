@@ -40,8 +40,8 @@ public class ArticleController {
      * @return List<ArticleVo>
      */
     @GetMapping("/feature")
-    public List<ArticleVo> getFeatureArticle(){
-        return articleService.getFeatureArticle();
+    public List<ArticleVo> getFeatureArticle(@AuthorParameter Integer userId){
+        return articleService.getFeatureArticle(userId);
     }
 
     /**

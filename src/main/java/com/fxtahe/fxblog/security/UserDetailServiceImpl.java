@@ -32,13 +32,11 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Author author = authorMapper.selectOne(new QueryWrapper<Author>().eq("author_name", username));
+        Author author = authorMapper.selectOne(new QueryWrapper<Author>().eq("login_name", username));
         if(author == null){
             throw new UsernameNotFoundException("username not found");
         }
         List<Role> roles = roleMapper.selectRoleByUserId(author.getId());
         return new UserDetailsImpl(author,roles.stream().map(Role::getRole).map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
-//        return new User(author.getAuthorName(),author.getPassword()
-//                ,roles.stream().map(Role::getRole).map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
     }
 }
