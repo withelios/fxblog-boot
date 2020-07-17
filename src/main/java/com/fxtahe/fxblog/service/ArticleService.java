@@ -38,6 +38,12 @@ public interface ArticleService extends IService<Article> {
     List<ArticleVo> getFeatureArticle(Integer userId);
 
     /**
+     * 查询归档文章
+     * @return List<ArticleVo>
+     */
+    List<ArticleVo> getArchiveArticle(Integer userId);
+
+    /**
      *
      * @param pageRequest 查询条件
      * @return IPage<ArticleVo>

@@ -57,13 +57,24 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
+    public List<ArticleVo> getArchiveArticle(Integer userId) {
+        return null;
+    }
+
+    @Override
     public PageResponse<ArticleVo> getArticleVoPage(PageRequest<ArticleVo> pageRequest,Integer userId) {
         pageRequest.setData((ArticleVo) pageRequest.getData().setAuthorId(userId));
         Long current = pageRequest.getCurrent();
         Long size = pageRequest.getSize();
-        if(current <=0){
+        if(current == null||current <=0){
             current = 1L;
+            pageRequest.setCurrent(current);
         }
+        if(size == null || size <=0){
+            size = 10L;
+            pageRequest.setSize(size);
+        }
+
         pageRequest.setLimit((current-1)*size);
         List<ArticleVo> result =  baseMapper.selectArticleVoPage(pageRequest);
         Long total = baseMapper.selectCountArticleVoPage(pageRequest);

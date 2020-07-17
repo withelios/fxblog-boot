@@ -13,11 +13,27 @@
         <result column="email" property="email" />
         <result column="introduction" property="introduction" />
     </resultMap>
-
+    <resultMap id="VoResultMap" type="com.fxtahe.fxblog.vo.AuthorVo" extends="BaseResultMap">
+        <collection property="categories" column="id" ofType="com.fxtahe.fxblog.entity.Category" select="selectAuthorRelCategories" />
+        <collection property="tags" column="id" ofType="com.fxtahe.fxblog.entity.Tag" select="selectAuthorRelTags" />
+    </resultMap>
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, author_name, avatar, github, email, introduction
     </sql>
 
+    <select id="selectAuthorVos" resultMap="VoResultMap">
+        select a.* from author a
+        JOIN author_role b
+        JOIN role c
+        on a.id = b.aid AND b.rid = c.id and c.role = 'author'
+    </select>
 
+    <select id="selectAuthorRelCategories" resultMap="com.fxtahe.fxblog.mapper.CategoryMapper.BaseResultMap">
+        select * from category where author_id = #{id}
+    </select>
+
+    <select id="selectAuthorRelTags" resultMap="com.fxtahe.fxblog.mapper.TagMapper.BaseResultMap">
+        select * from tag where author_id = #{id}
+    </select>
 </mapper>

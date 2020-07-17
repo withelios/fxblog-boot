@@ -1,7 +1,6 @@
 package com.fxtahe.fxblog.controller;
 
 
-import com.fxtahe.fxblog.config.annotation.AuthorParameter;
 import com.fxtahe.fxblog.config.annotation.ResponseWrapper;
 import com.fxtahe.fxblog.entity.Author;
 import com.fxtahe.fxblog.security.UserAuthenticationHelper;
@@ -9,11 +8,13 @@ import com.fxtahe.fxblog.security.UserDetailsImpl;
 import com.fxtahe.fxblog.service.AuthorService;
 import com.fxtahe.fxblog.vo.AuthorVo;
 import com.fxtahe.fxblog.vo.wrapper.Result;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -31,7 +32,8 @@ public class AuthorController {
     @Resource
     private AuthorService authorService;
 
-
+    @Resource
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @PostMapping("/register")
     public Result register(@Valid Author author){
@@ -57,19 +59,29 @@ public class AuthorController {
     }
 
     @PutMapping("/update/info")
-    public Result updateInfo(@RequestBody Author author, @AuthorParameter Integer id){
-        author.setId(id);
-        authorService.updateById(author);
+    public Result updateInfo(@RequestBody Author author){
+        UserDetailsImpl currentPrincipal = (UserDetailsImpl) UserAuthenticationHelper.getCurrentPrincipal();
+        Integer id = currentPrincipal.getAuthorId();
+        authorService.updateById(author.setId(id));
+        return Result.success();
+    }
+
+    @PutMapping("/update/avatar")
+    public Result updateAvatar(@RequestBody Author author){
+        UserDetailsImpl currentPrincipal = (UserDetailsImpl) UserAuthenticationHelper.getCurrentPrincipal();
+        Integer id = currentPrincipal.getAuthorId();
+        authorService.updateById(author.setId(id));
         return Result.success();
     }
 
     @PutMapping("/update/password")
-    public Result updatePassword(@RequestBody Author author){
+    public Result updatePassword(@RequestBody Map<String,String> formData){
         UserDetailsImpl currentPrincipal = (UserDetailsImpl) UserAuthenticationHelper.getCurrentPrincipal();
         Integer authorId = currentPrincipal.getAuthorId();
-        authorService.updateById(author.setId(authorId));
+        authorService.updateById(new Author().setId(authorId).setPassword(bCryptPasswordEncoder.encode(formData.get("password"))));
         return Result.success();
     }
+
     @DeleteMapping("/admin/delete/{id}")
     public Result deleteAuthor(@PathVariable Integer id){
         authorService.removeById(id);

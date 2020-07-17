@@ -24,6 +24,6 @@ spring:
 token:
   header: Authorization
   secret: c0295e3d-e1b3-4a5e-aa49-1b7209363d14
-  access-expiration: 10
-  refresh-expiration: 3600
+  access-expiration: 1800
+  refresh-expiration: 36000000
   roleClaims: role

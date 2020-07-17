@@ -1,17 +1,25 @@
 package com.fxtahe.fxblog.vo;
 
 import com.fxtahe.fxblog.entity.Author;
+import com.fxtahe.fxblog.entity.Category;
+import com.fxtahe.fxblog.entity.Tag;
 import lombok.Data;
 
 import java.util.List;
 
 /**
-* @description TODO
-* @author fxtahe
-* @date 2020/6/22
-*/
+ * <p>
+ *     AuthorVo
+ * </p>
+ * @author fxtahe
+ * @since 2020/7/15
+ */
 @Data
 public class AuthorVo extends Author {
 
     List<String> roles;
+
+    List<Category> categories;
+
+    List<Tag> tags;
 }

@@ -59,5 +59,10 @@ public class AuthorServiceImpl extends ServiceImpl<AuthorMapper, Author> impleme
         return authorVo;
     }
 
+    @Override
+    public List<AuthorVo> getAuthorVOS() {
+        return baseMapper.selectAuthorVos();
+    }
+
 
 }
