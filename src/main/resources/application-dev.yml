@@ -4,7 +4,9 @@ server:
 logging:
   level:
     com.fxtahe.fxblog.mapper: debug
-
+  config: classpath:logback-spring.xml
+  file:
+    path: ./log
 spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
@@ -27,3 +29,4 @@ token:
   access-expiration: 1800
   refresh-expiration: 36000000
   roleClaims: role
+

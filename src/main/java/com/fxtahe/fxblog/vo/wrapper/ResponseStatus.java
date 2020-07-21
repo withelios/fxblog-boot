@@ -33,6 +33,9 @@ public enum ResponseStatus {
      */
     INTERNAL_SERVER_ERROR(500,"服务异常"),
 
+    /**
+     * 登录信息异常
+     */
     LOGIN_ERROR(40001,"账号或密码错误"),
     /**
      * token 过期
