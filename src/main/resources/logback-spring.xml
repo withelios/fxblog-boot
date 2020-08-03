@@ -13,18 +13,15 @@
 
     <!-- 按照每天生成日志文件 -->
     <appender name="FILE"  class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!--日志文件输出的文件名-->
             <FileNamePattern>${LOG_PATH}/fxblog.%d{yyyy-MM-dd}.%i.log.gz</FileNamePattern>
             <!--日志文件保留天数-->
             <MaxHistory>10</MaxHistory>
             <!-- 日志总保存量为2GB -->
             <totalSizeCap>2GB</totalSizeCap>
-            <timeBasedFileNamingAndTriggeringPolicy
-                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <!--文件达到 最大50MB时会被压缩和切割 -->
-                <maxFileSize>50MB</maxFileSize>
-            </timeBasedFileNamingAndTriggeringPolicy>
+            <!--文件达到 最大50MB时会被压缩和切割 -->
+            <maxFileSize>100MB</maxFileSize>
         </rollingPolicy>
         <!--输出格式-->
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">

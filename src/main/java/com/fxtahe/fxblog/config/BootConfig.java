@@ -5,7 +5,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.optimize.JsqlParser
 import com.fxtahe.fxblog.config.annotation.ResponseWrapper;
 import com.fxtahe.fxblog.security.AuthorMethodArgumentResolver;
 import com.fxtahe.fxblog.vo.wrapper.Result;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.caffeine.CaffeineCacheManager;
+import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.MethodParameter;
@@ -21,12 +26,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
 * @description Fxblog-Boot Configure
 * @author fxtahe
 * @date 2020/6/12
 */
+@EnableCaching
 @EnableTransactionManagement
 @Configuration
 @MapperScan("com.fxtahe.fxblog.mapper")
@@ -99,6 +106,41 @@ public class BootConfig {
         paginationInterceptor.setLimit(10);
         paginationInterceptor.setCountSqlParser(new JsqlParserCountOptimize(true));
         return paginationInterceptor;
+    }
+
+
+    /**
+     * 配置缓存管理器
+     *
+     * @return 缓存管理器
+     */
+    @Bean("caffeineCacheManager")
+    public CacheManager cacheManager() {
+        CaffeineCacheManager cacheManager = new CaffeineCacheManager();
+        cacheManager.setCaffeine(Caffeine.newBuilder()
+                // 设置最后一次写入或访问后经过固定时间过期
+                .expireAfterAccess(1, TimeUnit.DAYS)
+                // 初始的缓存空间大小
+                .initialCapacity(100)
+                // 缓存的最大条数
+                .maximumSize(1000));
+        return cacheManager;
+    }
+
+    /**
+     * 缓存自定义key生成器
+     * @return KeyGenerator
+     */
+    @Bean
+    public KeyGenerator keyGenerator() {
+        return (o, method, objects) -> {
+            StringBuilder sb = new StringBuilder();
+            sb.append(method.getReturnType().getName()).append(".");
+            for (Object obj : objects) {
+                sb.append(obj.toString());
+            }
+            return sb.toString();
+        };
     }
 
 }

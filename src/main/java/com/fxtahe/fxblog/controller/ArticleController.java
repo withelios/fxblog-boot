@@ -13,6 +13,8 @@ import com.fxtahe.fxblog.vo.ArticleVo;
 import com.fxtahe.fxblog.vo.PageRequest;
 import com.fxtahe.fxblog.vo.PageResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -54,11 +56,21 @@ public class ArticleController {
         return articleService.getOne(new QueryWrapper<Article>().eq("id",id).eq(userId!=null,"author_id",userId));
     }
 
+    /**
+     * 分页文章
+     * @param pageRequest
+     * @param userId
+     * @return
+     */
     @PostMapping("/page")
     public PageResponse<ArticleVo> getArticleVoPage(@RequestBody PageRequest<ArticleVo> pageRequest,@AuthorParameter Integer userId){
         return articleService.getArticleVoPage(pageRequest,userId);
     }
 
+    /**
+     * 保存文章
+     * @param articleVo
+     */
     @PostMapping("/save")
     public void saveArticleVo(@RequestBody ArticleVo articleVo){
         UserDetailsImpl userDetails = (UserDetailsImpl) UserAuthenticationHelper.getCurrentPrincipal();
@@ -66,16 +78,34 @@ public class ArticleController {
         articleService.saveArticleVo(articleVo,authorId);
     }
 
+    /**
+     * 删除文章
+     * @param id
+     * @param userId
+     */
+    @CacheEvict(value = "articles",key = "id")
     @DeleteMapping("/delete/{id}")
     public void deleteArticle(@PathVariable Integer id,@AuthorParameter Integer userId){
         articleService.deleteArticle(id,userId);
     }
 
+    /**
+     * 更新文章
+     * @param articleVo
+     * @param userId
+     */
+    @CachePut(value="articles",key="articleVo.id")
     @PutMapping("/update")
     public void updateArticle(@RequestBody ArticleVo articleVo,@AuthorParameter Integer userId){
         articleService.updateArticleVo(articleVo,userId);
     }
 
+    /**
+     * 设置推荐文章
+     * @param article
+     * @param userId
+     */
+    @CacheEvict
     @PutMapping("/feature")
     public void updateFeature(@RequestBody Article article,@AuthorParameter Integer userId){
         articleService.update(new UpdateWrapper<Article>().eq(userId!=null,"author_id",userId)

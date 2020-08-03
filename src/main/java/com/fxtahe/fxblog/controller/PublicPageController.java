@@ -15,6 +15,7 @@ import com.fxtahe.fxblog.vo.ArticleVo;
 import com.fxtahe.fxblog.vo.AuthorVo;
 import com.fxtahe.fxblog.vo.PageRequest;
 import com.fxtahe.fxblog.vo.PageResponse;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -43,19 +44,40 @@ public class PublicPageController {
     @Resource
     private AuthorService authorService;
 
+    /**
+     * 获取推荐文章
+     * @return
+     */
     @GetMapping("/article/feature")
     public List<ArticleVo> getFeatureArticle(){
         return articleService.getFeatureArticle(null);
     }
 
+    /**
+     * 获取归档文章
+     * @return
+     */
+    @Cacheable(value="article")
     @GetMapping("/article/archive/current")
     public List<ArticleVo> getArchiveArticle(){
         return articleService.getArchiveArticle(null);
     }
+
+    /**
+     * 点赞文章
+     * @param id
+     */
     @PutMapping("/article/like/{id}")
     public void likeArticle(@PathVariable Integer id){
         articleService.update(new UpdateWrapper<Article>().set("like","like+1").eq("id",id).eq("state",Const.ARTICLE_POSTED));
     }
+
+    /**
+     * 获取文章
+     * @param id
+     * @return
+     */
+    @Cacheable(value = "articles",key = "#id")
     @GetMapping("/article/get/{id}")
     public ArticleVo getArticleVo(@PathVariable Integer id){
         Article article = new Article();
@@ -63,6 +85,14 @@ public class PublicPageController {
         return articleService.getArticleVo(article);
     }
 
+    /**
+     * 分页查询文章
+     * @param categoryId
+     * @param tagId
+     * @param authorId
+     * @param page
+     * @return
+     */
     @GetMapping("/article/page")
     public PageResponse<ArticleVo> getArticleVoPage(@RequestParam(value = "categoryId",required = false)Integer categoryId,
                                                     @RequestParam(value="tagId",required = false)Integer tagId,
@@ -79,25 +109,31 @@ public class PublicPageController {
         return articleService.getArticleVoPage(pageRequest,null);
     }
 
+    /**
+     * 获取标签
+     * @return
+     */
     @GetMapping("/tag/tags")
     public List<Tag> getTags(){
         return tagService.list(new QueryWrapper<Tag>().select("DISTINCT(tag_name)"));
     }
 
+    /**
+     * 获取分类
+     * @return
+     */
     @GetMapping("/category/categories")
     public List<Category> getCategories(){
         return categoryService.list(new QueryWrapper<Category>().select("DISTINCT(category_name)"));
     }
 
+    /**
+     * 获取作者信息
+     * @return
+     */
+    @Cacheable(value = "authors")
     @GetMapping("/authorInfo/list")
     public List<AuthorVo> getAuthorVOs(){
         return authorService.getAuthorVOS();
-    }
-
-    @GetMapping("/article/get/tag/{name}")
-    public PageResponse<ArticleVo> getArticlesByTagName(@PathVariable String name){
-
-
-        return null;
     }
 }
