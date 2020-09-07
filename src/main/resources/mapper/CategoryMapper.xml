@@ -7,10 +7,28 @@
         <id column="id" property="id" />
         <result column="category_name" property="categoryName" />
     </resultMap>
+    <resultMap id="CategoryVoResultMap"  extends="BaseResultMap" type="com.fxtahe.fxblog.vo.CategoryVo">
+        <collection property="articles" ofType="com.fxtahe.fxblog.entity.Article">
+            <id  property="id" column="article_id"/>
+            <result property="title" column="title" />
+            <result property="createDate" column="create_date"/>
+        </collection>
+    </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, category_name
     </sql>
+
+    <select id="searchArticles" resultMap="CategoryVoResultMap" parameterType="string">
+        select c.id,c.category_name,a.id as article_id,a.title,a.create_date
+        from category c
+        JOIN relationship r on c.id=r.r_id and r.r_type = 'category'
+        JOIN article a on a.id=r.article_id and a.state = 2
+        <if test="key != null and key != ''">
+           and  a.title like concat('%',#{key},'%')
+        </if>
+
+    </select>
 
 </mapper>

@@ -1,12 +1,14 @@
 package com.fxtahe.fxblog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.fxtahe.fxblog.entity.ArchiveArticle;
 import com.fxtahe.fxblog.entity.Article;
 import com.fxtahe.fxblog.vo.ArticleVo;
 import com.fxtahe.fxblog.vo.PageRequest;
 import com.fxtahe.fxblog.vo.PageResponse;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -29,7 +31,7 @@ public interface ArticleService extends IService<Article> {
      * @param article
      * @return ArticleVo
      */
-    ArticleVo getArticleVo(Article article);
+    ArticleVo getArticleVo(ArticleVo article);
 
     /**
      * 查询推荐文章
@@ -41,14 +43,14 @@ public interface ArticleService extends IService<Article> {
      * 查询归档文章
      * @return List<ArticleVo>
      */
-    List<ArticleVo> getArchiveArticle(Integer userId);
+    Map<Integer,List<ArchiveArticle>> getArchiveArticle(Integer userId, Integer state);
 
     /**
      *
      * @param pageRequest 查询条件
      * @return IPage<ArticleVo>
      */
-    PageResponse<ArticleVo> getArticleVoPage(PageRequest<ArticleVo> pageRequest,Integer userId);
+    PageResponse<ArticleVo> getArticleVoPage(PageRequest<ArticleVo> pageRequest);
 
 
     /**
@@ -63,6 +65,21 @@ public interface ArticleService extends IService<Article> {
      * @param articleVo 文章数据
      */
     void updateArticleVo(ArticleVo articleVo,Integer userId);
+
+
+    /**
+     * 文章点赞
+     * @param id
+     */
+    void likeArticle(Integer id);
+
+
+    /**
+     * 文章浏览量
+     * @param id
+     */
+    void viewArticle(Integer id);
+
 
 
 }

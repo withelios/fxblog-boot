@@ -2,10 +2,7 @@ package com.fxtahe.fxblog.config.annotation;
 
 import com.fxtahe.fxblog.util.Const;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * <p>
@@ -15,6 +12,7 @@ import java.lang.annotation.Target;
  * @author fxtahe
  * @date 2020/6/19
  */
+@Documented
 @Target({ ElementType.PARAMETER, ElementType.ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface AuthorParameter {

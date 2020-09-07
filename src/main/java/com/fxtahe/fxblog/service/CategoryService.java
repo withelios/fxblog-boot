@@ -1,7 +1,10 @@
 package com.fxtahe.fxblog.service;
 
-import com.fxtahe.fxblog.entity.Category;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.fxtahe.fxblog.entity.Category;
+import com.fxtahe.fxblog.vo.CategoryVo;
+
+import java.util.List;
 
 /**
  * <p>
@@ -14,4 +17,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface CategoryService extends IService<Category> {
 
     void deleteCategory(Integer id,Integer userId);
+
+    List<CategoryVo> searchArticles(String key);
 }

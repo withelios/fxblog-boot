@@ -1,6 +1,7 @@
 package com.fxtahe.fxblog.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.fxtahe.fxblog.entity.ArchiveArticle;
 import com.fxtahe.fxblog.entity.Article;
 import com.fxtahe.fxblog.entity.Tag;
 import com.fxtahe.fxblog.vo.ArticleVo;
@@ -23,9 +24,15 @@ public interface ArticleMapper extends BaseMapper<Article> {
 
     List<ArticleVo> selectArticleVoPage(PageRequest<ArticleVo> articleVo);
 
-    ArticleVo selectArticleVo(Article article);
+    ArticleVo selectArticleVo(ArticleVo article);
 
     Long selectCountArticleVoPage(PageRequest<ArticleVo>  articleVo);
 
     List<Tag> selectRelationTags(Integer id);
+
+    void likeArticle(@Param("id") Integer id,@Param("state") Integer state);
+
+    void viewArticle(@Param("id") Integer id,@Param("state") Integer state);
+
+    List<ArchiveArticle> selectArchiveArticle(@Param("authorId") Integer authorId, @Param("state") Integer state);
 }

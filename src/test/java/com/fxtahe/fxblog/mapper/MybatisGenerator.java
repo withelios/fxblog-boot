@@ -29,7 +29,7 @@ public class MybatisGenerator {
         // 默认是全部表  如果需要生成个别张表,  可以打开56行的注释并注释掉57行
         generateByTables(serviceNameStartWithI,
                 packageName,
-                dir, new String[]{"role"}
+                dir, new String[]{"website"}
         );
     }
     private static void generateByTables(boolean serviceNameStartWithI, String packageName, String dir, String... tableNames ) {

@@ -1,11 +1,15 @@
 package com.fxtahe.fxblog.controller;
 
 
+import com.fxtahe.fxblog.config.annotation.OperationLog;
 import com.fxtahe.fxblog.config.annotation.ResponseWrapper;
 import com.fxtahe.fxblog.entity.Author;
+import com.fxtahe.fxblog.entity.Website;
 import com.fxtahe.fxblog.security.UserAuthenticationHelper;
 import com.fxtahe.fxblog.security.UserDetailsImpl;
 import com.fxtahe.fxblog.service.AuthorService;
+import com.fxtahe.fxblog.service.WebsiteService;
+import com.fxtahe.fxblog.util.Const;
 import com.fxtahe.fxblog.vo.AuthorVo;
 import com.fxtahe.fxblog.vo.wrapper.Result;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -33,6 +37,9 @@ public class AuthorController {
     private AuthorService authorService;
 
     @Resource
+    private WebsiteService websiteService;
+
+    @Resource
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @PostMapping("/register")
@@ -41,16 +48,32 @@ public class AuthorController {
         return Result.success();
     }
 
-    @GetMapping("/get/list")
+    /**
+     * 管理员查看用户列表
+     * @return
+     */
+    @OperationLog(operationModule = Const.AUTHOR_TYPE,operationType = Const.OPERA_TYPE_SELECT,operationDesc = "用户分页")
+    @GetMapping("/admin/get/list")
     public List<Author> getList(){
         return authorService.list();
     }
 
+    /**
+     * 管理员查看用户信息
+     * @param id
+     * @return
+     */
+    @OperationLog(operationModule = Const.AUTHOR_TYPE,operationType = Const.OPERA_TYPE_SELECT,operationDesc = "查看用户信息")
     @GetMapping("/admin/get/{id}")
     public Author getById(@PathVariable Integer id){
         return authorService.getById(id);
     }
 
+    /**
+     * 登陆获取信息
+     * @return
+     */
+    @OperationLog(operationModule = Const.AUTHOR_TYPE,operationType = "登录",operationDesc = "用户登录")
     @GetMapping("/get/info")
     public AuthorVo getInfo(){
         UserDetailsImpl currentPrincipal = (UserDetailsImpl) UserAuthenticationHelper.getCurrentPrincipal();
@@ -58,6 +81,12 @@ public class AuthorController {
         return authorService.getAuthorInfo(authorId);
     }
 
+    /**
+     * 更新作者信息
+     * @param author
+     * @return
+     */
+    @OperationLog(operationModule = Const.AUTHOR_TYPE,operationType = Const.OPERA_TYPE_UPDATE,operationDesc = "更新用户信息")
     @PutMapping("/update/info")
     public Result updateInfo(@RequestBody Author author){
         UserDetailsImpl currentPrincipal = (UserDetailsImpl) UserAuthenticationHelper.getCurrentPrincipal();
@@ -66,6 +95,12 @@ public class AuthorController {
         return Result.success();
     }
 
+    /**
+     * 更新头像
+     * @param author
+     * @return
+     */
+    @OperationLog(operationModule = Const.AUTHOR_TYPE,operationType = Const.OPERA_TYPE_UPDATE,operationDesc = "更新头像")
     @PutMapping("/update/avatar")
     public Result updateAvatar(@RequestBody Author author){
         UserDetailsImpl currentPrincipal = (UserDetailsImpl) UserAuthenticationHelper.getCurrentPrincipal();
@@ -74,6 +109,12 @@ public class AuthorController {
         return Result.success();
     }
 
+    /**
+     * 更新密码
+     * @param formData
+     * @return
+     */
+    @OperationLog(operationModule = Const.AUTHOR_TYPE,operationType = Const.OPERA_TYPE_UPDATE,operationDesc = "更新密码")
     @PutMapping("/update/password")
     public Result updatePassword(@RequestBody Map<String,String> formData){
         UserDetailsImpl currentPrincipal = (UserDetailsImpl) UserAuthenticationHelper.getCurrentPrincipal();
@@ -82,10 +123,9 @@ public class AuthorController {
         return Result.success();
     }
 
-    @DeleteMapping("/admin/delete/{id}")
-    public Result deleteAuthor(@PathVariable Integer id){
-        authorService.removeById(id);
-        return Result.success();
-    }
+
+
+
+
 }
 

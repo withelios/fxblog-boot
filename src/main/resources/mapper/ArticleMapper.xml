@@ -40,6 +40,11 @@
         <id property="id" column="tag_id" />
         <result property="tagName" column="tag_name" />
     </resultMap>
+    <resultMap id="ArchiveArticleResultMap" type="com.fxtahe.fxblog.entity.ArchiveArticle" extends="BaseResultMap">
+        <id property="year" column="year" />
+        <id property="month" column="month" />
+        <id property="day" column="day" />
+    </resultMap>
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, author_id, title, cover, excerpt, content, markdown, likes, views, create_date, update_date, state
@@ -67,7 +72,7 @@
             a.author_id =#{authorId}
         </if>
     </select>
-    <select id="selectArticleVo" parameterType="com.fxtahe.fxblog.entity.Article" resultMap="ArticleVoResultMap">
+    <select id="selectArticleVo" parameterType="com.fxtahe.fxblog.vo.ArticleVo" resultMap="ArticleVoResultMap">
         select a.*,t.id as tag_id,author.author_name,author.avatar,author.github,author.email,author.introduction,
         t.tag_name,c.id as category_id,c.category_name
         from article a
@@ -85,11 +90,13 @@
             <if test="state != null">
                 and a.state = #{state}
             </if>
-            <if test="authorId != null">
-                and a.authorId = #{authorId}
-            </if>
-            <if test="authorName != null">
-                and a.author_name = #{authorName}
+            <if test="author != null">
+                <if test="author.authorId != null">
+                    and a.id = #{author.authorId}
+                </if>
+                <if test="author.authorName != null">
+                    and author.author_name = #{author.authorName}
+                </if>
             </if>
         </where>
         order by a.update_date desc
@@ -199,6 +206,19 @@
             </if>
         </where>) tbl
     </select>
+    <select id="selectArchiveArticle" resultMap="ArchiveArticleResultMap">
+         SELECT year(a.create_date) `year`,month(a.create_date) `month`,day(a.create_date) `day`,a.*
+         from article a
+         <where>
+             <if test="authorId != null">
+                 author_id=#{authorId}
+             </if>
+             <if test="state != null">
+                 and state = #{state}
+             </if>
+         </where>
+         ORDER BY create_date ASC;
+    </select>
     <update id="updateByIdAndNotNullUserId" parameterType="com.fxtahe.fxblog.vo.ArticleVo">
         update article
         <trim prefix="set" suffixOverrides=",">
@@ -241,4 +261,17 @@
             and author_id = #{authorId}
         </if>
     </update>
+
+    <update id="likeArticle" parameterType="integer">
+        UPDATE article  SET likes=likes+1  WHERE (id = #{id} AND state = #{state})
+    </update>
+
+
+    <update id="viewArticle" parameterType="integer">
+        UPDATE article  SET views=views+1  WHERE (id = #{id} AND state = #{state})
+    </update>
+
+    <select id="searchArticles" parameterType="string">
+        select id,title,create_date,
+    </select>
 </mapper>

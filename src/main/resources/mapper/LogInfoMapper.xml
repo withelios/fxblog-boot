@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fxtahe.fxblog.mapper.LogInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.fxtahe.fxblog.entity.LogInfo">
+        <id column="id" property="id" />
+        <result column="log_level" property="logLevel" />
+        <result column="user_id" property="userId" />
+        <result column="user_type" property="userType" />
+        <result column="user_name" property="userName" />
+        <result column="operation_module" property="operationModule" />
+        <result column="operation_type" property="operationType" />
+        <result column="operation_desc" property="operationDesc" />
+        <result column="request_uri" property="requestUri" />
+        <result column="request_ip" property="requestIp" />
+        <result column="request_method" property="requestMethod" />
+        <result column="request_parameter" property="requestParameter" />
+        <result column="request_result" property="requestResult" />
+        <result column="exc_name" property="excName" />
+        <result column="exc_message" property="excMessage" />
+        <result column="create_date" property="createDate" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, log_level, user_id, user_type, user_name, operation_module, operation_type, operation_desc, request_uri, request_ip, request_method, request_parameter, request_result, exc_name, exc_message, create_date
+    </sql>
+
+</mapper>

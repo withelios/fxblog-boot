@@ -72,8 +72,8 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
             }
             doFilter(request, response, filterChain);
         } catch (JwtException e) {
-            e.printStackTrace();
-            log.error(e.getMessage());
+            //e.printStackTrace();
+            log.error("token Expired");
             resolver.resolveException(request, response, null, e);
         }
     }

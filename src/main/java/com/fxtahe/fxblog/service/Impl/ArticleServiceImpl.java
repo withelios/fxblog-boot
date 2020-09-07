@@ -2,10 +2,7 @@ package com.fxtahe.fxblog.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.fxtahe.fxblog.entity.Article;
-import com.fxtahe.fxblog.entity.Category;
-import com.fxtahe.fxblog.entity.Relationship;
-import com.fxtahe.fxblog.entity.Tag;
+import com.fxtahe.fxblog.entity.*;
 import com.fxtahe.fxblog.mapper.ArticleMapper;
 import com.fxtahe.fxblog.service.ArticleService;
 import com.fxtahe.fxblog.service.RelationshipService;
@@ -19,7 +16,7 @@ import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.*;
 
 /**
  * <p>
@@ -47,7 +44,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
-    public ArticleVo getArticleVo(Article article) {
+    public ArticleVo getArticleVo(ArticleVo article) {
         return baseMapper.selectArticleVo(article);
     }
 
@@ -57,13 +54,27 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
-    public List<ArticleVo> getArchiveArticle(Integer userId) {
-        return null;
+    public Map<Integer,List<ArchiveArticle>> getArchiveArticle(Integer userId,Integer state) {
+
+        List<ArchiveArticle>  list = baseMapper.selectArchiveArticle(userId, state);
+
+        LinkedHashMap<Integer,List<ArchiveArticle>> map = new LinkedHashMap<>(16);
+        for(ArchiveArticle archiveArticle:list){
+            List<ArchiveArticle> articles = map.get(archiveArticle.getYear());
+            if(CollectionUtils.isEmpty(articles)){
+                List<ArchiveArticle> archiveArticles = new LinkedList<>();
+                archiveArticles.add(archiveArticle);
+                map.put(archiveArticle.getYear(), archiveArticles);
+            }else{
+                articles.add(archiveArticle);
+            }
+        }
+        return map;
     }
 
     @Override
-    public PageResponse<ArticleVo> getArticleVoPage(PageRequest<ArticleVo> pageRequest,Integer userId) {
-        pageRequest.setData((ArticleVo) pageRequest.getData().setAuthorId(userId));
+    public PageResponse<ArticleVo> getArticleVoPage(PageRequest<ArticleVo> pageRequest) {
+        //pageRequest.setData((ArticleVo) pageRequest.getData().setAuthorId(userId));
         Long current = pageRequest.getCurrent();
         Long size = pageRequest.getSize();
         if(current == null||current <=0){
@@ -93,6 +104,16 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         articleVo.updateById();
         relationshipService.deleteByCondition(new Relationship().setArticleId(articleVo.getId()));
         saveOrUpdateRelation(articleVo,userId);
+    }
+
+    @Override
+    public void likeArticle(Integer id) {
+        baseMapper.likeArticle(id,Const.ARTICLE_POSTED);
+    }
+
+    @Override
+    public void viewArticle(Integer id) {
+        baseMapper.viewArticle(id,Const.ARTICLE_POSTED);
     }
 
     public void saveOrUpdateRelation(ArticleVo articleVo,Integer userId){

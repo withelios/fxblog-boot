@@ -1,9 +1,8 @@
 package com.fxtahe.fxblog.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.fxtahe.fxblog.config.annotation.ResponseWrapper;
-import com.fxtahe.fxblog.entity.Article;
+import com.fxtahe.fxblog.entity.ArchiveArticle;
 import com.fxtahe.fxblog.entity.Category;
 import com.fxtahe.fxblog.entity.Tag;
 import com.fxtahe.fxblog.service.ArticleService;
@@ -11,16 +10,18 @@ import com.fxtahe.fxblog.service.AuthorService;
 import com.fxtahe.fxblog.service.CategoryService;
 import com.fxtahe.fxblog.service.TagService;
 import com.fxtahe.fxblog.util.Const;
-import com.fxtahe.fxblog.vo.ArticleVo;
-import com.fxtahe.fxblog.vo.AuthorVo;
-import com.fxtahe.fxblog.vo.PageRequest;
-import com.fxtahe.fxblog.vo.PageResponse;
+import com.fxtahe.fxblog.vo.*;
+import com.fxtahe.fxblog.vo.wrapper.Result;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
 * @description 页面展示控制器
@@ -44,6 +45,7 @@ public class PublicPageController {
     @Resource
     private AuthorService authorService;
 
+
     /**
      * 获取推荐文章
      * @return
@@ -57,19 +59,20 @@ public class PublicPageController {
      * 获取归档文章
      * @return
      */
-    @Cacheable(value="article")
-    @GetMapping("/article/archive/current")
-    public List<ArticleVo> getArchiveArticle(){
-        return articleService.getArchiveArticle(null);
+    @GetMapping("/article/archive")
+    public Map<Integer,List<ArchiveArticle>> getArchiveArticle(){
+        return articleService.getArchiveArticle(null,Const.ARTICLE_POSTED);
     }
 
     /**
      * 点赞文章
      * @param id
      */
+    @CacheEvict(value="article",key="#id")
     @PutMapping("/article/like/{id}")
-    public void likeArticle(@PathVariable Integer id){
-        articleService.update(new UpdateWrapper<Article>().set("like","like+1").eq("id",id).eq("state",Const.ARTICLE_POSTED));
+    public Result likeArticle(@PathVariable Integer id){
+        articleService.likeArticle(id);
+        return Result.success();
     }
 
     /**
@@ -77,11 +80,11 @@ public class PublicPageController {
      * @param id
      * @return
      */
-    @Cacheable(value = "articles",key = "#id")
     @GetMapping("/article/get/{id}")
     public ArticleVo getArticleVo(@PathVariable Integer id){
-        Article article = new Article();
+        ArticleVo article = new ArticleVo();
         article.setId(id).setState(Const.ARTICLE_POSTED);
+        articleService.viewArticle(id);
         return articleService.getArticleVo(article);
     }
 
@@ -102,11 +105,11 @@ public class PublicPageController {
         pageRequest.setCurrent(page);
         ArticleVo data = new ArticleVo();
         data.setAuthorId(authorId);
-        data.setCategory(new Category().setId(categoryId));
-        data.setTags(Collections.singletonList(new Tag().setId(tagId)));
+        if(categoryId!=null)data.setCategory(new Category().setId(categoryId));
+        if (tagId != null) data.setTags(Collections.singletonList(new Tag().setId(tagId)));
         data.setState(Const.ARTICLE_POSTED);
         pageRequest.setData(data);
-        return articleService.getArticleVoPage(pageRequest,null);
+        return articleService.getArticleVoPage(pageRequest);
     }
 
     /**
@@ -131,9 +134,16 @@ public class PublicPageController {
      * 获取作者信息
      * @return
      */
-    @Cacheable(value = "authors")
     @GetMapping("/authorInfo/list")
     public List<AuthorVo> getAuthorVOs(){
         return authorService.getAuthorVOS();
+    }
+
+    @Cacheable(value = "article",key = "#key")
+    @GetMapping("/article/search/{key}")
+    public List<CategoryVo> searchArticles(@PathVariable String key){
+
+       return StringUtils.isEmpty(key.trim()) ? new ArrayList<>() :categoryService.searchArticles(key);
+        //return StringUtils.isEmpty(key.trim()) ? new ArrayList<>() :articleService.list(new QueryWrapper<Article>().select("id","title","create_date").eq("state",Const.ARTICLE_POSTED).like("title",key));
     }
 }
