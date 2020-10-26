@@ -1,12 +1,6 @@
 server:
   port: 8001
 
-logging:
-  level:
-    com.fxtahe.fxblog.mapper: debug
-  config: classpath:logback-spring.xml
-  file:
-    path: ./log
 spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
@@ -15,7 +9,7 @@ spring:
       minimum-idle: 10
     url: "jdbc:mysql://localhost:3306/fxblog?useSSL=false&serverTimezone=CTT&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true"
     username: root
-    password: root
+    password: root12
     driver-class-name: com.mysql.jdbc.Driver
   cache:
     type: caffeine
@@ -23,10 +17,5 @@ spring:
     caffeine:
       spec: initialCapacity=50,maximumSize=500,expireAfterAccess=7d
 
-token:
-  header: Authorization
-  secret: c0295e3d-e1b3-4a5e-aa49-1b7209363d14
-  access-expiration: 1800
-  refresh-expiration: 36000000
-  roleClaims: role
+
 

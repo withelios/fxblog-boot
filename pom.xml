@@ -11,7 +11,7 @@
     </parent>
     <artifactId>fxblog-boot</artifactId>
     <groupId>com.fxtahe</groupId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0-Release</version>
     <properties>
         <mybatis-plus.version>3.3.1.tmp</mybatis-plus.version>
         <java.version>1.8</java.version>

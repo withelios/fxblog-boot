@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-
+    <!--设置存储路径变量-->
+    <springProperty name="LOG_PATH" source="${logging.file.path}" />
     <springProfile name="dev">
         <!-- debug sql 日志 -->
         <logger name="com.fxtahe.fxblog.mapper" level="debug" />

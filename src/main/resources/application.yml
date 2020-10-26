@@ -1,8 +1,20 @@
 spring:
   profiles:
-    active: dev
-
+    active: prod
+logging:
+  level:
+    com.fxtahe.fxblog.mapper: debug
+  config: classpath:logback-spring.xml
+  file:
+    path: ./log
 mybatis-plus:
   global-config:
     banner: false
   mapperLocations: classpath:mapper/*Mapper.xml
+
+token:
+  header: Authorization
+  secret: c0295e3d-e1b3-4a5e-aa49-1b7209363d14
+  access-expiration: 1800
+  refresh-expiration: 36000000
+  roleClaims: role

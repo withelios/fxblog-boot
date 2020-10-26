@@ -136,7 +136,7 @@
                 </if>
             </if>
         </where>
-        order by a.update_date desc
+        /*order by a.update_date desc*/
         <if test="size != 0">
             limit  #{limit} , #{size}
         </if>
@@ -154,6 +154,7 @@
                 </if>
             </if>
         </where>
+        ORDER BY tmp.update_date desc
     </select>
     <select id="selectCountArticleVoPage" parameterType="com.fxtahe.fxblog.vo.ArticleVo" resultType="long">
         select count(DISTINCT tbl.id) from
