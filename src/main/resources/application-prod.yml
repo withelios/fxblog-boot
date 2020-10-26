@@ -3,3 +3,20 @@ server:
 
 logging:
   config: classpath:logback-spring.xml
+  level:
+    root: info
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      connection-timeout: 3000
+      minimum-idle: 10
+    url: "jdbc:mysql://47.93.138.1:3306/fxblog?useSSL=false&serverTimezone=CTT&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true"
+    username: root
+    password: Root!12#$
+    driver-class-name: com.mysql.jdbc.Driver
+  cache:
+    type: caffeine
+    cache-names: boot
+    caffeine:
+      spec: initialCapacity=50,maximumSize=500,expireAfterAccess=7d
