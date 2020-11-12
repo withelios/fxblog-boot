@@ -144,6 +144,5 @@ public class PublicPageController {
     public List<CategoryVo> searchArticles(@PathVariable String key){
 
        return StringUtils.isEmpty(key.trim()) ? new ArrayList<>() :categoryService.searchArticles(key);
-        //return StringUtils.isEmpty(key.trim()) ? new ArrayList<>() :articleService.list(new QueryWrapper<Article>().select("id","title","create_date").eq("state",Const.ARTICLE_POSTED).like("title",key));
     }
 }

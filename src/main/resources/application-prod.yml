@@ -12,7 +12,21 @@ spring:
     password: root12
     driver-class-name: com.mysql.jdbc.Driver
   cache:
-    type: caffeine
-    cache-names: boot
-    caffeine:
-      spec: initialCapacity=50,maximumSize=500,expireAfterAccess=7d
+    type: redis
+    cacheNames: boot
+    redis:
+      timeToLive: 20000
+      cache-null-values: false
+      keyPrefix: fxblog-
+  redis:
+    host: localhost
+    port: 6379
+    database: 0
+    lettuce:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+    timeout: 20000
+
