@@ -15,7 +15,7 @@
     <properties>
         <mybatis-plus.version>3.3.1.tmp</mybatis-plus.version>
         <java.version>1.8</java.version>
-        <mysql-connector.version>5.1.47</mysql-connector.version>
+        <mysql-connector.version>8.0.28</mysql-connector.version>
         <swagger-ui.version>2.9.2</swagger-ui.version>
         <caffine.version>2.7.0</caffine.version>
         <jwt.version>0.9.0</jwt.version>
